@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/*
+ * openwms.org, the Open Warehouse Management System.
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as 
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software. If not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */  
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task" xmlns:ip="http://www.springframework.org/schema/integration/ip"
+    xmlns:int="http://www.springframework.org/schema/integration"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+            http://www.springframework.org/schema/integration/ip http://www.springframework.org/schema/integration/ip/spring-integration-ip.xsd
+            http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.openwms.common" />
+
+    <int:converter>
+        <bean class="org.openwms.common.comm.tcpip.serializer.ByteArrayToStringConverter" />
+    </int:converter>
+
+    <bean id="bySerializer" class="org.springframework.integration.ip.tcp.serializer.ByteArrayCrLfSerializer" />
+
+    <int:channel id="inboundChannel" datatype="java.lang.String" />
+    <int:channel id="serviceIBC" />
+    <int:channel id="outboundChannel" />
+
+    <ip:tcp-connection-factory id="server" type="server" port="30000" using-nio="true"
+        serializer="bySerializer" deserializer="bySerializer" />
+
+    <int:chain input-channel="inboundChannel" output-channel="outboundChannel">
+        <int:transformer ref="commonMessageTransformer" />
+        <int:service-activator ref="telegramHandler" method="test" />
+    </int:chain>
+
+    <!-- Responsible to transform messages and put them on TCP/IP sockets -->
+    <ip:tcp-inbound-channel-adapter id="inAdapter.server" channel="inboundChannel"
+        connection-factory="server" />
+    <ip:tcp-outbound-channel-adapter id="outAdapter.server" channel="outboundChannel"
+        connection-factory="server" />
+
+</beans>
