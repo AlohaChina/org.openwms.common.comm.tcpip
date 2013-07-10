@@ -20,7 +20,14 @@
  */
 package org.openwms.common.comm.tcpip.common;
 
+import java.text.ParseException;
+
+import org.openwms.common.comm.tcpip.CommonHeader;
+import org.openwms.common.comm.tcpip.CommonMessage;
 import org.openwms.common.comm.tcpip.MessageMapper;
+import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
+import org.openwms.common.domain.LocationPK;
+import org.openwms.common.domain.values.Barcode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,7 +51,26 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
      */
     @Override
     public RequestMessage mapTo(String telegram) {
-        return new RequestMessage();
+        int startPayload = CommonHeader.getHeaderLength() + forType().length();
+        int startActualLocation = startPayload + Barcode.BARCODE_LENGTH;
+        int startTargetLocation = startActualLocation + LocationPK.getKeyLength();
+        int startErrorCode = startTargetLocation + LocationPK.getKeyLength();
+        int startCreateDate = startErrorCode + CommonMessage.getErrorCodeLength();
+
+        RequestMessage message;
+        try {
+            message = new RequestMessage.Builder()
+                    .withBarcode(telegram.substring(startPayload, startActualLocation))
+                    .withActualLocation(telegram.substring(startActualLocation, startTargetLocation))
+                    .withTargetLocation(telegram.substring(startTargetLocation, startErrorCode))
+                    .withErrorCode(telegram.substring(startErrorCode, startCreateDate))
+                    .withCreateDate(
+                            telegram.substring(startCreateDate, startCreateDate + CommonMessage.getDateLength()))
+                    .build();
+            return message;
+        } catch (ParseException e) {
+            throw new MessageMissmatchException(e.getMessage());
+        }
     }
 
     /**

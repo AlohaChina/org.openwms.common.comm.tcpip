@@ -28,6 +28,7 @@ import javax.annotation.PostConstruct;
 
 import org.openwms.common.comm.tcpip.CommonMessage;
 import org.openwms.common.comm.tcpip.MessageMapper;
+import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.stereotype.Component;
@@ -75,7 +76,8 @@ public class CommonMessageTransformer {
     public CommonMessage transform(String telegram) {
         MessageMapper<CommonMessage> mapper = mappersMap.get(CommonMessage.getTelegramType(telegram));
         if (mapper == null) {
-            throw new RuntimeException("Not mapper found for telegram type " + CommonMessage.getTelegramType(telegram));
+            throw new MessageMissmatchException("Not mapper found for telegram type "
+                    + CommonMessage.getTelegramType(telegram));
         }
         return mapper.mapTo(telegram);
     }

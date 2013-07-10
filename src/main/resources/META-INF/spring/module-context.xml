@@ -33,30 +33,46 @@
             http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <context:annotation-config />
+    <int:annotation-config/> 
     <context:component-scan base-package="org.openwms.common" />
-
     <int:converter>
         <bean class="org.openwms.common.comm.tcpip.serializer.ByteArrayToStringConverter" />
     </int:converter>
-
     <bean id="bySerializer" class="org.springframework.integration.ip.tcp.serializer.ByteArrayCrLfSerializer" />
 
-    <int:channel id="inboundChannel" datatype="java.lang.String" />
-    <int:channel id="serviceIBC" />
-    <int:channel id="outboundChannel" />
+
+
 
     <ip:tcp-connection-factory id="server" type="server" port="30000" using-nio="true"
         serializer="bySerializer" deserializer="bySerializer" />
 
-    <int:chain input-channel="inboundChannel" output-channel="outboundChannel">
-        <int:transformer ref="commonMessageTransformer" />
-        <int:service-activator ref="telegramHandler" method="test" />
-    </int:chain>
-
-    <!-- Responsible to transform messages and put them on TCP/IP sockets -->
     <ip:tcp-inbound-channel-adapter id="inAdapter.server" channel="inboundChannel"
         connection-factory="server" />
+
+    <int:channel id="inboundChannel" datatype="java.lang.String" />
+
+    <int:transformer input-channel="inboundChannel" output-channel="transformerOutput" ref="commonMessageTransformer" />
+
+    <int:channel id="transformerOutput" />
+
+    <int:service-activator input-channel="transformerOutput" output-channel="outboundChannel" ref="telegramHandler"
+        method="test" />
+
+    <int:channel id="outboundChannel" />
+
     <ip:tcp-outbound-channel-adapter id="outAdapter.server" channel="outboundChannel"
         connection-factory="server" />
+        
+        
+        
+        
+    <!--Error handling -->
+    <int:exception-type-router input-channel="inboundChannel" default-output-channel="commonExceptionChannel">
+        <int:mapping exception-type="org.openwms.common.comm.tcpip.exception.MessageMismatchException" channel="commonExceptionChannel" />
+        <int:mapping exception-type="java.lang.Exception" channel="generalExceptionChannel" />
+    </int:exception-type-router>
+
+    <int:channel id="commonExceptionChannel" />
+    <int:channel id="generalExceptionChannel" />
 
 </beans>
