@@ -55,8 +55,27 @@ public abstract class CommonMessage implements Serializable {
 
     /**
      * Create a new CommonMessage.
+     * 
+     * @param telegram
+     */
+    public CommonMessage(String telegram) {
+        this.header = createHeader(telegram);
+    }
+
+    /**
+     * Create a new CommonMessage.
      */
     public CommonMessage() {}
+
+    /**
+     * FIXME [scherrer] Comment this
+     * 
+     * @param telegram
+     * @return
+     */
+    public CommonHeader createHeader(String telegram) {
+        return new CommonHeader(telegram);
+    }
 
     /**
      * Return the length of a date field used in telegram messages.
@@ -107,6 +126,8 @@ public abstract class CommonMessage implements Serializable {
      * @return The telegram TYPE field (see OSIP specification)
      */
     public abstract String getTelegramIdentifier();
+
+    public abstract String toTelegram();
 
     /**
      * Get the header.

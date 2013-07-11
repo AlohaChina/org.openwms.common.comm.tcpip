@@ -20,33 +20,36 @@
  */
 package org.openwms.common.comm.tcpip.server;
 
+import org.openwms.common.comm.tcpip.err.ErrorCodes;
+import org.openwms.common.comm.tcpip.err.ErrorTelegramMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
 /**
- * A MessageMissmatchHandler.
+ * A CommonExceptionHandler.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * 
  */
 @Component
-public class MessageMissmatchHandler {
-
+public class CommonExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageMissmatchHandler.class);
 
     /**
-     * Create a new MessageMissmatchHandler.
+     * Create a new CommonExceptionHandler.
      */
-    public MessageMissmatchHandler() {}
+    public CommonExceptionHandler() {}
 
-    @ServiceActivator(inputChannel = "errExceptionChannel")
-    public void handle(String telegram) {
+    @ServiceActivator(inputChannel = "commonExceptionChannel", outputChannel = "outboundChannel")
+    public ErrorTelegramMessage handle(String telegram) {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Invalid telegram : " + telegram);
+            LOGGER.info("Common error: " + telegram);
         }
+        return new ErrorTelegramMessage.Builder(telegram).withErrorCode(ErrorCodes.UNKNOWN_TELEGRAM_TYPE)
+                .withCreateDate().build();
     }
 
 }

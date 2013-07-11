@@ -68,11 +68,11 @@
         
     <!--Error handling -->
     <int:exception-type-router input-channel="inboundChannel" default-output-channel="commonExceptionChannel">
-        <int:mapping exception-type="org.openwms.common.comm.tcpip.exception.MessageMismatchException" channel="commonExceptionChannel" />
-        <int:mapping exception-type="java.lang.Exception" channel="generalExceptionChannel" />
+        <int:mapping exception-type="org.openwms.common.comm.tcpip.exception.MessageMissmatchException" channel="errExceptionChannel" />
+        <int:mapping exception-type="java.lang.Exception" channel="commonExceptionChannel" />
     </int:exception-type-router>
 
     <int:channel id="commonExceptionChannel" />
-    <int:channel id="generalExceptionChannel" />
+    <int:channel id="errExceptionChannel" />
 
 </beans>

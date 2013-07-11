@@ -59,7 +59,7 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
 
         RequestMessage message;
         try {
-            message = new RequestMessage.Builder()
+            message = new RequestMessage.Builder(telegram)
                     .withBarcode(telegram.substring(startPayload, startActualLocation))
                     .withActualLocation(telegram.substring(startActualLocation, startTargetLocation))
                     .withTargetLocation(telegram.substring(startTargetLocation, startErrorCode))

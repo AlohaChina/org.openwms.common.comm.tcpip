@@ -18,7 +18,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip.common;
+package org.openwms.common.comm.tcpip.err;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -50,8 +50,12 @@ public class ErrorTelegramMessage extends CommonMessage {
 
     /**
      * Create a new ErrorTelegramMessage.
+     * 
+     * @param telegram
      */
-    public ErrorTelegramMessage() {}
+    public ErrorTelegramMessage(String telegram) {
+        super(telegram);
+    }
 
     /**
      * @see org.openwms.common.comm.tcpip.CommonMessage#getTelegramIdentifier()
@@ -73,10 +77,12 @@ public class ErrorTelegramMessage extends CommonMessage {
         private final ErrorTelegramMessage message;
 
         /**
-         * Create a new ErrorTelegramMessage.Builder.
+         * Create a new Builder.
+         * 
+         * @param telegram
          */
-        public Builder() {
-            this.message = new ErrorTelegramMessage();
+        public Builder(String telegram) {
+            this.message = new ErrorTelegramMessage(telegram);
         }
 
         /**

@@ -29,6 +29,8 @@ import javax.annotation.PostConstruct;
 import org.openwms.common.comm.tcpip.CommonMessage;
 import org.openwms.common.comm.tcpip.MessageMapper;
 import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.stereotype.Component;
@@ -43,14 +45,10 @@ import org.springframework.stereotype.Component;
 @Component(value = "commonMessageTransformer")
 public class CommonMessageTransformer {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonMessageTransformer.class);
     @Autowired
     private List<MessageMapper<CommonMessage>> mappers;
     private final Map<String, MessageMapper<CommonMessage>> mappersMap = new HashMap<String, MessageMapper<CommonMessage>>();
-
-    /**
-     * Create a new CommonMessageTransformer.
-     */
-    public CommonMessageTransformer() {}
 
     /**
      * Do this once to query a Map not a List.
@@ -76,6 +74,9 @@ public class CommonMessageTransformer {
     public CommonMessage transform(String telegram) {
         MessageMapper<CommonMessage> mapper = mappersMap.get(CommonMessage.getTelegramType(telegram));
         if (mapper == null) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("Not mapper found for telegram type " + CommonMessage.getTelegramType(telegram));
+            }
             throw new MessageMissmatchException("Not mapper found for telegram type "
                     + CommonMessage.getTelegramType(telegram));
         }

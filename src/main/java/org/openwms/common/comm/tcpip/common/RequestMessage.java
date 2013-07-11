@@ -46,6 +46,15 @@ public class RequestMessage extends CommonMessage {
     public static final String IDENTIFIER = "REQ_";
 
     /**
+     * Create a new RequestMessage.
+     * 
+     * @param telegram
+     */
+    public RequestMessage(String telegram) {
+        super(telegram);
+    }
+
+    /**
      * @see org.openwms.common.comm.tcpip.CommonMessage#getTelegramIdentifier()
      */
     @Override
@@ -77,8 +86,8 @@ public class RequestMessage extends CommonMessage {
         /**
          * Create a new RequestMessage.Builder.
          */
-        public Builder() {
-            this.requestMessage = new RequestMessage();
+        public Builder(String telegram) {
+            this.requestMessage = new RequestMessage(telegram);
         }
 
         public Builder withBarcode(String barcode) {

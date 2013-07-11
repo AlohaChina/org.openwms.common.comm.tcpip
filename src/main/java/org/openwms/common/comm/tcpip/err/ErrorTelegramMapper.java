@@ -18,9 +18,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip.common;
+package org.openwms.common.comm.tcpip.err;
 
+import java.text.ParseException;
+
+import org.openwms.common.comm.tcpip.CommonHeader;
+import org.openwms.common.comm.tcpip.CommonMessage;
 import org.openwms.common.comm.tcpip.MessageMapper;
+import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,18 +39,28 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ErrorTelegramMapper implements MessageMapper<ErrorTelegramMessage> {
-
-    /**
-     * Create a new ErrorTelegramMapper.
-     */
-    public ErrorTelegramMapper() {}
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramMapper.class);
 
     /**
      * @see org.openwms.common.comm.tcpip.MessageMapper#mapTo(java.lang.String)
      */
     @Override
     public ErrorTelegramMessage mapTo(String telegram) {
-        return null;
+        int startPayload = CommonHeader.getHeaderLength() + forType().length();
+        int startCreateDate = startPayload + CommonMessage.getErrorCodeLength();
+
+        try {
+            return new ErrorTelegramMessage.Builder(telegram)
+                    .withErrorCode(telegram.substring(startPayload, startCreateDate))
+                    .withCreateDate(
+                            telegram.substring(startCreateDate, startCreateDate + CommonMessage.getDateLength()))
+                    .build();
+        } catch (ParseException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("Error while parsing telegram:" + e.getMessage());
+            }
+            throw new MessageMissmatchException(e.getMessage());
+        }
     }
 
     /**

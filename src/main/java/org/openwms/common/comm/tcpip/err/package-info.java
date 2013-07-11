@@ -18,35 +18,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip.server;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.stereotype.Component;
-
 /**
- * A MessageMissmatchHandler.
- * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision: $
- * @since 0.1
+ * Contains classes responsible for dealing with error telegrams and error messages.
  */
-@Component
-public class MessageMissmatchHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessageMissmatchHandler.class);
-
-    /**
-     * Create a new MessageMissmatchHandler.
-     */
-    public MessageMissmatchHandler() {}
-
-    @ServiceActivator(inputChannel = "errExceptionChannel")
-    public void handle(String telegram) {
-        if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("Invalid telegram : " + telegram);
-        }
-    }
-
-}
+package org.openwms.common.comm.tcpip.err;

@@ -20,7 +20,7 @@
  */
 package org.openwms.common.comm.tcpip.server;
 
-import org.openwms.common.comm.tcpip.common.RequestMessage;
+import org.openwms.common.comm.tcpip.CommonMessage;
 import org.springframework.stereotype.Service;
 
 /**
@@ -39,7 +39,7 @@ public class TelegramHandler {
      * @param message
      * @return
      */
-    public String test(RequestMessage message) {
+    public String test(CommonMessage message) {
         return message + " : Hello world";
     }
 

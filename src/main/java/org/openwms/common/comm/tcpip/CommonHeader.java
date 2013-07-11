@@ -37,6 +37,11 @@ public class CommonHeader implements Serializable {
     private String sender;
     private String receiver;
     private short sequenceNo;
+    private static final short LENGTH_SYNC_FIELD = 3;
+    private static final short LENGTH_TELEGRAM_LENGTH_FIELD = 5;
+    private static final short LENGTH_SENDER_FIELD = 5;
+    private static final short LENGTH_RECEIVER_FIELD = 5;
+    private static final short LENGTH_SEQUENCE_NO_FIELD = 5;
 
     /**
      * Create a new CommonHeader.
@@ -62,12 +67,82 @@ public class CommonHeader implements Serializable {
     }
 
     /**
+     * Create a new CommonHeader.
+     * 
+     * @param telegram
+     */
+    public CommonHeader(String telegram) {
+        this.sync = telegram.substring(0, getLengthSyncField());
+
+        int start = sync.length();
+        int end = start + getLengthTelegramLengthField();
+        this.telegramLength = Short.parseShort(telegram.substring(start, end));
+
+        start = end;
+        end += getLengthSenderField();
+        this.sender = telegram.substring(start, end);
+
+        start = end;
+        end += getLengthReceiverField();
+        this.receiver = telegram.substring(start, end);
+
+        start = end;
+        end += getLengthSequenceNoField();
+        this.sequenceNo = Short.parseShort(telegram.substring(start, end));
+    }
+
+    /**
      * Return the number of characters the message header allocates.
      * 
      * @return 23
      */
     public static final short getHeaderLength() {
         return (short) 23;
+    }
+
+    /**
+     * Get the lengthSyncField.
+     * 
+     * @return the lengthSyncField.
+     */
+    public static short getLengthSyncField() {
+        return LENGTH_SYNC_FIELD;
+    }
+
+    /**
+     * Get the lengthTelegramLengthField.
+     * 
+     * @return the lengthTelegramLengthField.
+     */
+    public static short getLengthTelegramLengthField() {
+        return LENGTH_TELEGRAM_LENGTH_FIELD;
+    }
+
+    /**
+     * Get the lengthReceiverField.
+     * 
+     * @return the lengthReceiverField.
+     */
+    public static short getLengthReceiverField() {
+        return LENGTH_RECEIVER_FIELD;
+    }
+
+    /**
+     * Get the lengthSenderField.
+     * 
+     * @return the lengthSenderField.
+     */
+    public static short getLengthSenderField() {
+        return LENGTH_SENDER_FIELD;
+    }
+
+    /**
+     * Get the lengthSequenceNoField.
+     * 
+     * @return the lengthSequenceNoField.
+     */
+    public static short getLengthSequenceNoField() {
+        return LENGTH_SEQUENCE_NO_FIELD;
     }
 
     /**
