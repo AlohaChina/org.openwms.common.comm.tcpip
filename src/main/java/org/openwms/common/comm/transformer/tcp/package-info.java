@@ -19,6 +19,6 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * Contains transformer implementations responsible to transform incoming messages to domain specific messages.
  */
-package org.openwms.common.comm.request.tcp;
+package org.openwms.common.comm.transformer.tcp;

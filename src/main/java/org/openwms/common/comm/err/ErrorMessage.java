@@ -18,57 +18,48 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.request;
+package org.openwms.common.comm.err;
 
 import java.io.Serializable;
 import java.util.Date;
 
+import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
-import org.openwms.common.domain.LocationPK;
-import org.openwms.common.domain.values.Barcode;
 import org.springframework.core.serializer.Serializer;
 
 /**
- * A RequestMessage requests an order for a TransportUnit with id
- * <tt>Barcode</tt> on a particular location <tt>actualLocation</tt>.
+ * A ErrorMessage.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public class RequestMessage extends CommonMessage {
+public class ErrorMessage extends CommonMessage {
 
     private static final long serialVersionUID = 1L;
-    public static final String IDENTIFIER = "REQ_";
-    private final String identifier = IDENTIFIER;
-
-    private Barcode barcode;
-    private LocationPK actualLocation;
-    private LocationPK targetLocation;
+    private final String messageIdentifier = IDENTIFIER;
+    public static final String IDENTIFIER = "ERR_";
 
     /**
-     * Create a new RequestMessage.
+     * Create a new ErrorMessage.
      * 
-     * @param telegram
+     * @param header
      */
-    public RequestMessage() {}
+    public ErrorMessage(CommonHeader header) {
+        super(header);
+    }
+
+    /**
+     * Create a new ErrorMessage.
+     */
+    public ErrorMessage() {}
 
     /**
      * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
      */
     @Override
     public String getMessageIdentifier() {
-        return identifier;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "RequestMessage [identifier=" + IDENTIFIER + ", barcode=" + barcode + ", actualLocation="
-                + actualLocation + ", targetLocation=" + targetLocation + ", errorCode=" + getErrorCode()
-                + ", created=" + getCreated() + "]";
+        return messageIdentifier;
     }
 
     /**
@@ -80,42 +71,55 @@ public class RequestMessage extends CommonMessage {
      */
     public static class Builder {
 
-        private final RequestMessage requestMessage;
+        private final ErrorMessage message;
 
         /**
-         * Create a new RequestMessage.Builder.
+         * Create a new Builder.
          */
         public Builder() {
-            this.requestMessage = new RequestMessage();
+            this.message = new ErrorMessage();
         }
 
-        public Builder withBarcode(Barcode barcode) {
-            requestMessage.barcode = barcode;
-            return this;
-        }
-
-        public Builder withActualLocation(LocationPK actualLocation) {
-            requestMessage.actualLocation = actualLocation;
-            return this;
-        }
-
-        public Builder withTargetLocation(LocationPK targetLocation) {
-            requestMessage.targetLocation = targetLocation;
-            return this;
-        }
-
+        /**
+         * Add an error code to the message.
+         * 
+         * @param errorCode
+         * @return The builder
+         */
         public Builder withErrorCode(String errorCode) {
-            requestMessage.setErrorCode(errorCode);
+            message.setErrorCode(errorCode);
             return this;
         }
 
+        /**
+         * Add a creation Date to the Message.
+         * 
+         * @param createDate
+         *            The date of creation
+         * @return The builder
+         */
         public Builder withCreateDate(Date createDate) {
-            requestMessage.setCreated(createDate);
+            message.setCreated(createDate);
             return this;
         }
 
-        public RequestMessage build() {
-            return requestMessage;
+        /**
+         * Add a new instance of Date to the Message.
+         * 
+         * @return The builder
+         */
+        public Builder withCreateDate() {
+            message.setCreated(new Date());
+            return this;
+        }
+
+        /**
+         * Build and return the Message.
+         * 
+         * @return The Message
+         */
+        public ErrorMessage build() {
+            return message;
         }
     }
 
@@ -133,6 +137,6 @@ public class RequestMessage extends CommonMessage {
      */
     @Override
     public boolean isWithoutReply() {
-        return false;
+        return true;
     }
 }

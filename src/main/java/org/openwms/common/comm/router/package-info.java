@@ -19,6 +19,6 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * Contains implementation following the Router pattern, used to route incoming messages to the right MessageChannel.
  */
-package org.openwms.common.comm.request.tcp;
+package org.openwms.common.comm.router;

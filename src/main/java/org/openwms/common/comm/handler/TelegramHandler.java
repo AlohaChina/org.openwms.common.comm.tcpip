@@ -18,7 +18,29 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.openwms.common.comm.handler;
+
+import org.openwms.common.comm.CommonMessage;
+import org.springframework.stereotype.Service;
+
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * A TelegramHandler.
+ * 
+ * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @version $Revision: $
+ * @since 0.1
  */
-package org.openwms.common.comm.request.tcp;
+@Service
+public class TelegramHandler {
+
+    /**
+     * FIXME [scherrer] Comment this
+     * 
+     * @param message
+     * @return
+     */
+    public String test(CommonMessage message) {
+        return message + " : Hello world";
+    }
+
+}

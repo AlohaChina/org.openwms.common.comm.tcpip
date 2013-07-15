@@ -18,7 +18,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.openwms.common.comm.request;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.channel.DirectChannel;
+
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * A RequestMessageConfiguration creates beans dynamically without the use of
+ * XML.
+ * 
+ * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @version $Revision: $
+ * @since 0.1
  */
-package org.openwms.common.comm.request.tcp;
+@Configuration
+public class RequestMessageConfiguration {
+
+    /**
+     * Create a MessageChannel with the proper name dynamically.
+     * 
+     * @return An DirectChannel instance
+     */
+    @Bean(name = RequestMessageServiceActivator.INPUT_CHANNEL_NAME)
+    public MessageChannel getMessageChannel() {
+        return new DirectChannel();
+    }
+}

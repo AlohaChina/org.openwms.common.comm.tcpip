@@ -19,6 +19,6 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * Contains service implementations that are responsible for message handling.
  */
-package org.openwms.common.comm.request.tcp;
+package org.openwms.common.comm.handler;

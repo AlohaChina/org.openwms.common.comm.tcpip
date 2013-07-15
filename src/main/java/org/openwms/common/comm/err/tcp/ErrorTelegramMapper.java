@@ -18,7 +18,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.request.tcp;
+package org.openwms.common.comm.err.tcp;
 
 import java.text.ParseException;
 
@@ -26,56 +26,41 @@ import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.comm.MessageMapper;
 import org.openwms.common.comm.CommConstants;
+import org.openwms.common.comm.err.ErrorMessage;
 import org.openwms.common.comm.exception.MessageMissmatchException;
-import org.openwms.common.comm.request.RequestMessage;
-import org.openwms.common.domain.LocationPK;
-import org.openwms.common.domain.values.Barcode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * A RequestTelegramMapper tries to map a telegram String to a
- * {@link RequestMessage}
+ * A ErrorTelegramMapper.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
 @Component
-public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
-
-    /**
-     * Create a new RequestTelegramMapper.
-     */
-    public RequestTelegramMapper() {}
+public class ErrorTelegramMapper implements MessageMapper<ErrorMessage> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramMapper.class);
 
     /**
      * @see org.openwms.common.comm.MessageMapper#mapTo(java.lang.String)
      */
     @Override
-    public RequestMessage mapTo(String telegram) {
+    public ErrorMessage mapTo(String telegram) {
         int startPayload = CommonHeader.getHeaderLength() + forType().length();
-        int startActualLocation = startPayload + Barcode.BARCODE_LENGTH;
-        int startTargetLocation = startActualLocation + LocationPK.getKeyLength();
-        int startErrorCode = startTargetLocation + LocationPK.getKeyLength();
-        int startCreateDate = startErrorCode + CommonMessage.getErrorCodeLength();
+        int startCreateDate = startPayload + CommonMessage.getErrorCodeLength();
 
-        RequestMessage message;
         try {
-            message = new RequestMessage.Builder()
-                    .withBarcode(new Barcode(telegram.substring(startPayload, startActualLocation)))
-                    .withActualLocation(
-                            new LocationPK((telegram.substring(startActualLocation, startTargetLocation))
-                                    .split("(?<=\\G.{" + LocationPK.getKeyLength() / LocationPK.NUMBER_OF_KEYS + "})")))
-                    .withTargetLocation(
-                            new LocationPK((telegram.substring(startTargetLocation, startErrorCode)).split("(?<=\\G.{"
-                                    + LocationPK.getKeyLength() / LocationPK.NUMBER_OF_KEYS + "})")))
-
-                    .withErrorCode(telegram.substring(startErrorCode, startCreateDate))
+            return new ErrorMessage.Builder()
+                    .withErrorCode(telegram.substring(startPayload, startCreateDate))
                     .withCreateDate(
                             CommConstants.asDate(telegram.substring(startCreateDate, startCreateDate
                                     + CommonMessage.getDateLength()))).build();
-            return message;
         } catch (ParseException e) {
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("Error while parsing telegram:" + e.getMessage());
+            }
             throw new MessageMissmatchException(e.getMessage());
         }
     }
@@ -85,6 +70,6 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
      */
     @Override
     public String forType() {
-        return RequestMessage.IDENTIFIER;
+        return ErrorMessage.IDENTIFIER;
     }
 }

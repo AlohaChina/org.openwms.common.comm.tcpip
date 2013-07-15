@@ -18,7 +18,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.openwms.common.comm.handler;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * A ServerRunner is bootstrapping the server's ApplicationContext.
+ * 
+ * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @version $Revision: $
+ * @since 0.1
  */
-package org.openwms.common.comm.request.tcp;
+public class ServerRunner {
+
+    /**
+     * FIXME [scherrer] Comment this
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
+        new ClassPathXmlApplicationContext("META-INF/spring/module-context.xml");
+    }
+}

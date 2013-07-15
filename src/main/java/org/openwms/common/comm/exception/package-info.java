@@ -19,6 +19,10 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 /**
- * This package contains types for RequestMessage handling specific to tcp/ip.
+ * A package-info.
+ *
+ * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @version $Revision: $
+ *
  */
-package org.openwms.common.comm.request.tcp;
+package org.openwms.common.comm.exception;
