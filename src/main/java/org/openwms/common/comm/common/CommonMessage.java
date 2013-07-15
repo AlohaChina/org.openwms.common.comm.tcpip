@@ -18,15 +18,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip;
+package org.openwms.common.comm.common;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.core.serializer.Serializer;
+
 /**
- * A CommonMessage.
+ * A CommonMessage is the abstract superclass of all messages sent to subsystems
+ * like PLC or ERP. A CommonMessage has always a message header and a body.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
@@ -39,7 +40,6 @@ public abstract class CommonMessage implements Serializable {
     private String errorCode;
     private Date created;
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
     private static final short ERROR_CODE_LENGTH = 8;
     private static final short DATE_LENGTH = 14;
 
@@ -58,7 +58,8 @@ public abstract class CommonMessage implements Serializable {
      * 
      * @param telegram
      */
-    public CommonMessage(String telegram) {
+    // TODO [scherrer] : remove this it is specific to telegrams.
+    private CommonMessage(String telegram) {
         this.header = createHeader(telegram);
     }
 
@@ -73,6 +74,7 @@ public abstract class CommonMessage implements Serializable {
      * @param telegram
      * @return
      */
+    // TODO [scherrer] : remove this it is specific to telegrams.
     public CommonHeader createHeader(String telegram) {
         return new CommonHeader(telegram);
     }
@@ -96,38 +98,14 @@ public abstract class CommonMessage implements Serializable {
     }
 
     /**
-     * Parses a String representation of a Date into a Date using the
-     * pre-defined format.
+     * Subclasses have to return an unique, case-sensitive message identifier.
      * 
-     * @param dateString
-     *            The date String to convert
-     * @return The converted date String
-     * @throws ParseException
-     *             in case the dateString hasn't the expected format pattern
+     * @return The message TYPE field (see OSIP specification)
      */
-    public static final Date asDate(String dateString) throws ParseException {
-        return DATE_FORMAT.parse(dateString);
-    }
+    public abstract String getMessageIdentifier();
 
-    /**
-     * Returns a Date object as formatted String.
-     * 
-     * @param date
-     *            The date to format
-     * @return The formattet String
-     */
-    public static final String asString(Date date) {
-        return DATE_FORMAT.format(date);
-    }
-
-    /**
-     * Subclasses have to return an unique, case-sensitive telegram identifier.
-     * 
-     * @return The telegram TYPE field (see OSIP specification)
-     */
-    public abstract String getTelegramIdentifier();
-
-    public abstract String toTelegram();
+    // TODO [scherrer] : remove this it is specific to telegrams.
+    public abstract String serialize(Serializer<Serializable> serializer);
 
     /**
      * Get the header.
@@ -147,6 +125,7 @@ public abstract class CommonMessage implements Serializable {
      *            The telegram String to resolve the type for
      * @return The telegram type as case-insensitive String
      */
+    // TODO [scherrer] : remove this it is specific to telegrams.
     public static final String getTelegramType(String telegram) {
         short headerLength = CommonHeader.getHeaderLength();
         return telegram.substring(headerLength, headerLength + 4);

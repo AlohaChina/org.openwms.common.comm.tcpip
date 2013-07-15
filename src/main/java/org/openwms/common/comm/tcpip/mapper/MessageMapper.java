@@ -18,29 +18,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip.server;
+package org.openwms.common.comm.tcpip.mapper;
 
 import org.openwms.common.comm.common.CommonMessage;
-import org.springframework.stereotype.Service;
 
 /**
- * A TelegramHandler.
+ * A MessageMapper is able to map from a String telegram to a
+ * {@link CommonMessage}.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-@Service
-public class TelegramHandler {
+public interface MessageMapper<T extends CommonMessage> {
 
     /**
-     * FIXME [scherrer] Comment this
+     * Investigate the telegram String <tt>telegram</tt> and retrieve from the
+     * telegram type a subtype of {@link CommonMessage}. Implementations
+     * probably throw some kind of RuntimeExceptions if no telegram type was
+     * found.
      * 
-     * @param message
-     * @return
+     * @param telegram
+     *            The telegram String to investigate
+     * @return The {@link CommonMessage}
      */
-    public String test(CommonMessage message) {
-        return message + " : Hello world";
-    }
+    T mapTo(String telegram);
 
+    /**
+     * Return the telegram type, this mapper is responsible for.
+     * 
+     * @return the telegram type as String
+     */
+    String forType();
 }

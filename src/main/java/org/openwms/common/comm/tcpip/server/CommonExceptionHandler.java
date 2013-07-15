@@ -48,8 +48,8 @@ public class CommonExceptionHandler {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Common error: " + telegram);
         }
-        return new ErrorTelegramMessage.Builder(telegram).withErrorCode(ErrorCodes.UNKNOWN_TELEGRAM_TYPE)
-                .withCreateDate().build();
+        return new ErrorTelegramMessage.Builder().withErrorCode(ErrorCodes.UNKNOWN_TELEGRAM_TYPE).withCreateDate()
+                .build();
     }
 
 }

@@ -20,11 +20,12 @@
  */
 package org.openwms.common.comm.tcpip.err;
 
-import java.text.ParseException;
+import java.io.Serializable;
 import java.util.Date;
 
-import org.openwms.common.comm.tcpip.CommonHeader;
-import org.openwms.common.comm.tcpip.CommonMessage;
+import org.openwms.common.comm.common.CommonHeader;
+import org.openwms.common.comm.common.CommonMessage;
+import org.springframework.core.serializer.Serializer;
 
 /**
  * A ErrorTelegramMessage.
@@ -50,18 +51,14 @@ public class ErrorTelegramMessage extends CommonMessage {
 
     /**
      * Create a new ErrorTelegramMessage.
-     * 
-     * @param telegram
      */
-    public ErrorTelegramMessage(String telegram) {
-        super(telegram);
-    }
+    public ErrorTelegramMessage() {}
 
     /**
-     * @see org.openwms.common.comm.tcpip.CommonMessage#getTelegramIdentifier()
+     * @see org.openwms.common.comm.common.CommonMessage#getMessageIdentifier()
      */
     @Override
-    public String getTelegramIdentifier() {
+    public String getMessageIdentifier() {
         return telegramIdentifier;
     }
 
@@ -78,11 +75,9 @@ public class ErrorTelegramMessage extends CommonMessage {
 
         /**
          * Create a new Builder.
-         * 
-         * @param telegram
          */
-        public Builder(String telegram) {
-            this.message = new ErrorTelegramMessage(telegram);
+        public Builder() {
+            this.message = new ErrorTelegramMessage();
         }
 
         /**
@@ -102,11 +97,9 @@ public class ErrorTelegramMessage extends CommonMessage {
          * @param createDate
          *            The date of creation
          * @return The builder
-         * @throws ParseException
-         *             in case of an invalid date string
          */
-        public Builder withCreateDate(String createDate) throws ParseException {
-            message.setCreated(asDate(createDate));
+        public Builder withCreateDate(Date createDate) {
+            message.setCreated(createDate);
             return this;
         }
 
@@ -128,5 +121,14 @@ public class ErrorTelegramMessage extends CommonMessage {
         public ErrorTelegramMessage build() {
             return message;
         }
+    }
+
+    /**
+     * @see org.openwms.common.comm.common.CommonMessage#serialize(org.springframework.core.serializer.Serializer)
+     */
+    @Override
+    public String serialize(Serializer<Serializable> serializer) {
+        // TODO [scherrer] Auto-generated method stub
+        return null;
     }
 }

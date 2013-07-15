@@ -22,10 +22,11 @@ package org.openwms.common.comm.tcpip.err;
 
 import java.text.ParseException;
 
-import org.openwms.common.comm.tcpip.CommonHeader;
-import org.openwms.common.comm.tcpip.CommonMessage;
-import org.openwms.common.comm.tcpip.MessageMapper;
+import org.openwms.common.comm.common.CommonHeader;
+import org.openwms.common.comm.common.CommonMessage;
+import org.openwms.common.comm.common.TelegramConstants;
 import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
+import org.openwms.common.comm.tcpip.mapper.MessageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -42,7 +43,7 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorTelegramMessage> 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramMapper.class);
 
     /**
-     * @see org.openwms.common.comm.tcpip.MessageMapper#mapTo(java.lang.String)
+     * @see org.openwms.common.comm.tcpip.mapper.MessageMapper#mapTo(java.lang.String)
      */
     @Override
     public ErrorTelegramMessage mapTo(String telegram) {
@@ -50,11 +51,11 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorTelegramMessage> 
         int startCreateDate = startPayload + CommonMessage.getErrorCodeLength();
 
         try {
-            return new ErrorTelegramMessage.Builder(telegram)
+            return new ErrorTelegramMessage.Builder()
                     .withErrorCode(telegram.substring(startPayload, startCreateDate))
                     .withCreateDate(
-                            telegram.substring(startCreateDate, startCreateDate + CommonMessage.getDateLength()))
-                    .build();
+                            TelegramConstants.asDate(telegram.substring(startCreateDate, startCreateDate
+                                    + CommonMessage.getDateLength()))).build();
         } catch (ParseException e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("Error while parsing telegram:" + e.getMessage());
@@ -64,7 +65,7 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorTelegramMessage> 
     }
 
     /**
-     * @see org.openwms.common.comm.tcpip.MessageMapper#forType()
+     * @see org.openwms.common.comm.tcpip.mapper.MessageMapper#forType()
      */
     @Override
     public String forType() {

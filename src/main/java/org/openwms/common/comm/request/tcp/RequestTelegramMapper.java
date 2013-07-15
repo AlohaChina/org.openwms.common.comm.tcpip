@@ -18,14 +18,16 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip.common;
+package org.openwms.common.comm.request.tcp;
 
 import java.text.ParseException;
 
-import org.openwms.common.comm.tcpip.CommonHeader;
-import org.openwms.common.comm.tcpip.CommonMessage;
-import org.openwms.common.comm.tcpip.MessageMapper;
+import org.openwms.common.comm.common.CommonHeader;
+import org.openwms.common.comm.common.CommonMessage;
+import org.openwms.common.comm.common.TelegramConstants;
+import org.openwms.common.comm.request.RequestMessage;
 import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
+import org.openwms.common.comm.tcpip.mapper.MessageMapper;
 import org.openwms.common.domain.LocationPK;
 import org.openwms.common.domain.values.Barcode;
 import org.springframework.stereotype.Component;
@@ -47,7 +49,7 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
     public RequestTelegramMapper() {}
 
     /**
-     * @see org.openwms.common.comm.tcpip.MessageMapper#mapTo(java.lang.String)
+     * @see org.openwms.common.comm.tcpip.mapper.MessageMapper#mapTo(java.lang.String)
      */
     @Override
     public RequestMessage mapTo(String telegram) {
@@ -59,14 +61,19 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
 
         RequestMessage message;
         try {
-            message = new RequestMessage.Builder(telegram)
-                    .withBarcode(telegram.substring(startPayload, startActualLocation))
-                    .withActualLocation(telegram.substring(startActualLocation, startTargetLocation))
-                    .withTargetLocation(telegram.substring(startTargetLocation, startErrorCode))
+            message = new RequestMessage.Builder()
+                    .withBarcode(new Barcode(telegram.substring(startPayload, startActualLocation)))
+                    .withActualLocation(
+                            new LocationPK((telegram.substring(startActualLocation, startTargetLocation))
+                                    .split("(?<=\\G.{" + LocationPK.getKeyLength() / LocationPK.NUMBER_OF_KEYS + "})")))
+                    .withTargetLocation(
+                            new LocationPK((telegram.substring(startTargetLocation, startErrorCode)).split("(?<=\\G.{"
+                                    + LocationPK.getKeyLength() / LocationPK.NUMBER_OF_KEYS + "})")))
+
                     .withErrorCode(telegram.substring(startErrorCode, startCreateDate))
                     .withCreateDate(
-                            telegram.substring(startCreateDate, startCreateDate + CommonMessage.getDateLength()))
-                    .build();
+                            TelegramConstants.asDate(telegram.substring(startCreateDate, startCreateDate
+                                    + CommonMessage.getDateLength()))).build();
             return message;
         } catch (ParseException e) {
             throw new MessageMissmatchException(e.getMessage());
@@ -74,7 +81,7 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
     }
 
     /**
-     * @see org.openwms.common.comm.tcpip.MessageMapper#forType()
+     * @see org.openwms.common.comm.tcpip.mapper.MessageMapper#forType()
      */
     @Override
     public String forType() {

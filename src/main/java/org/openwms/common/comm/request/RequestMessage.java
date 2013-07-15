@@ -18,13 +18,15 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip.common;
+package org.openwms.common.comm.request;
 
-import java.text.ParseException;
+import java.io.Serializable;
+import java.util.Date;
 
-import org.openwms.common.comm.tcpip.CommonMessage;
+import org.openwms.common.comm.common.CommonMessage;
 import org.openwms.common.domain.LocationPK;
 import org.openwms.common.domain.values.Barcode;
+import org.springframework.core.serializer.Serializer;
 
 /**
  * A RequestMessage requests an order for a TransportUnit with id
@@ -37,29 +39,26 @@ import org.openwms.common.domain.values.Barcode;
 public class RequestMessage extends CommonMessage {
 
     private static final long serialVersionUID = 1L;
-    private final String telegramIdentifier = IDENTIFIER;
+    public static final String IDENTIFIER = "REQ_";
+    private final String identifier = IDENTIFIER;
 
     private Barcode barcode;
     private LocationPK actualLocation;
     private LocationPK targetLocation;
-
-    public static final String IDENTIFIER = "REQ_";
 
     /**
      * Create a new RequestMessage.
      * 
      * @param telegram
      */
-    public RequestMessage(String telegram) {
-        super(telegram);
-    }
+    public RequestMessage() {}
 
     /**
-     * @see org.openwms.common.comm.tcpip.CommonMessage#getTelegramIdentifier()
+     * @see org.openwms.common.comm.common.CommonMessage#getMessageIdentifier()
      */
     @Override
-    public String getTelegramIdentifier() {
-        return telegramIdentifier;
+    public String getMessageIdentifier() {
+        return identifier;
     }
 
     /**
@@ -67,9 +66,9 @@ public class RequestMessage extends CommonMessage {
      */
     @Override
     public String toString() {
-        return "RequestMessage [telegramIdentifier=" + telegramIdentifier + ", barcode=" + barcode
-                + ", actualLocation=" + actualLocation + ", targetLocation=" + targetLocation + ", errorCode="
-                + getErrorCode() + ", created=" + getCreated() + "]";
+        return "RequestMessage [identifier=" + IDENTIFIER + ", barcode=" + barcode + ", actualLocation="
+                + actualLocation + ", targetLocation=" + targetLocation + ", errorCode=" + getErrorCode()
+                + ", created=" + getCreated() + "]";
     }
 
     /**
@@ -86,26 +85,22 @@ public class RequestMessage extends CommonMessage {
         /**
          * Create a new RequestMessage.Builder.
          */
-        public Builder(String telegram) {
-            this.requestMessage = new RequestMessage(telegram);
+        public Builder() {
+            this.requestMessage = new RequestMessage();
         }
 
-        public Builder withBarcode(String barcode) {
-            requestMessage.barcode = new Barcode(barcode);
+        public Builder withBarcode(Barcode barcode) {
+            requestMessage.barcode = barcode;
             return this;
         }
 
-        public Builder withActualLocation(String actualLocation) {
-            String[] parts = actualLocation.split("(?<=\\G.{" + LocationPK.getKeyLength() / LocationPK.NUMBER_OF_KEYS
-                    + "})");
-            requestMessage.actualLocation = new LocationPK(parts);
+        public Builder withActualLocation(LocationPK actualLocation) {
+            requestMessage.actualLocation = actualLocation;
             return this;
         }
 
-        public Builder withTargetLocation(String targetLocation) {
-            String[] parts = targetLocation.split("(?<=\\G.{" + LocationPK.getKeyLength() / LocationPK.NUMBER_OF_KEYS
-                    + "})");
-            requestMessage.targetLocation = new LocationPK(parts);
+        public Builder withTargetLocation(LocationPK targetLocation) {
+            requestMessage.targetLocation = targetLocation;
             return this;
         }
 
@@ -114,13 +109,22 @@ public class RequestMessage extends CommonMessage {
             return this;
         }
 
-        public Builder withCreateDate(String createDate) throws ParseException {
-            requestMessage.setCreated(asDate(createDate));
+        public Builder withCreateDate(Date createDate) {
+            requestMessage.setCreated(createDate);
             return this;
         }
 
         public RequestMessage build() {
             return requestMessage;
         }
+    }
+
+    /**
+     * @see org.openwms.common.comm.common.CommonMessage#serialize(org.springframework.core.serializer.Serializer)
+     */
+    @Override
+    public String serialize(Serializer<Serializable> serializer) {
+        // TODO [scherrer] Auto-generated method stub
+        return null;
     }
 }

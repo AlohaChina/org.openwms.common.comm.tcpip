@@ -20,7 +20,7 @@
  */
 package org.openwms.common.comm.tcpip.sender;
 
-import org.openwms.common.comm.tcpip.CommonMessage;
+import org.openwms.common.comm.common.CommonMessage;
 
 /**
  * A CommonMessageTelegramGateway is a POJO and acts as a message sender.

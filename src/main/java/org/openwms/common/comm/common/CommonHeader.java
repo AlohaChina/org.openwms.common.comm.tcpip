@@ -18,12 +18,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.tcpip;
+package org.openwms.common.comm.common;
 
 import java.io.Serializable;
 
 /**
- * A CommonHeader.
+ * A CommonHeader represents the header part of a CommonMessage.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
@@ -33,12 +33,13 @@ public class CommonHeader implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String sync;
-    private short telegramLength;
+    private short messageLength;
     private String sender;
     private String receiver;
     private short sequenceNo;
+
     private static final short LENGTH_SYNC_FIELD = 3;
-    private static final short LENGTH_TELEGRAM_LENGTH_FIELD = 5;
+    private static final short LENGTH_MESSAGE_LENGTH_FIELD = 5;
     private static final short LENGTH_SENDER_FIELD = 5;
     private static final short LENGTH_RECEIVER_FIELD = 5;
     private static final short LENGTH_SEQUENCE_NO_FIELD = 5;
@@ -52,15 +53,15 @@ public class CommonHeader implements Serializable {
      * Create a new CommonHeader.
      * 
      * @param sync
-     * @param telegramLength
+     * @param messageLength
      * @param sender
      * @param receiver
      * @param sequenceNo
      */
-    public CommonHeader(String sync, short telegramLength, String sender, String receiver, short sequenceNo) {
+    public CommonHeader(String sync, short messageLength, String sender, String receiver, short sequenceNo) {
         super();
         this.sync = sync;
-        this.telegramLength = telegramLength;
+        this.messageLength = messageLength;
         this.sender = sender;
         this.receiver = receiver;
         this.sequenceNo = sequenceNo;
@@ -71,12 +72,13 @@ public class CommonHeader implements Serializable {
      * 
      * @param telegram
      */
+    // TODO [scherrer] : remove this it is specific to telegrams.
     public CommonHeader(String telegram) {
         this.sync = telegram.substring(0, getLengthSyncField());
 
         int start = sync.length();
         int end = start + getLengthTelegramLengthField();
-        this.telegramLength = Short.parseShort(telegram.substring(start, end));
+        this.messageLength = Short.parseShort(telegram.substring(start, end));
 
         start = end;
         end += getLengthSenderField();
@@ -94,10 +96,11 @@ public class CommonHeader implements Serializable {
     /**
      * Return the number of characters the message header allocates.
      * 
-     * @return 23
+     * @return The header length in characters
      */
     public static final short getHeaderLength() {
-        return (short) 23;
+        return LENGTH_SYNC_FIELD + LENGTH_MESSAGE_LENGTH_FIELD + LENGTH_RECEIVER_FIELD + LENGTH_SENDER_FIELD
+                + LENGTH_SEQUENCE_NO_FIELD;
     }
 
     /**
@@ -115,7 +118,7 @@ public class CommonHeader implements Serializable {
      * @return the lengthTelegramLengthField.
      */
     public static short getLengthTelegramLengthField() {
-        return LENGTH_TELEGRAM_LENGTH_FIELD;
+        return LENGTH_MESSAGE_LENGTH_FIELD;
     }
 
     /**
@@ -165,22 +168,22 @@ public class CommonHeader implements Serializable {
     }
 
     /**
-     * Get the telegramLength.
+     * Get the messageLength.
      * 
-     * @return the telegramLength.
+     * @return the messageLength.
      */
-    public short getTelegramLength() {
-        return telegramLength;
+    public short getMessageLength() {
+        return messageLength;
     }
 
     /**
-     * Set the telegramLength.
+     * Set the messageLength.
      * 
-     * @param telegramLength
-     *            The telegramLength to set.
+     * @param messageLength
+     *            The messageLength to set.
      */
-    public void setTelegramLength(short telegramLength) {
-        this.telegramLength = telegramLength;
+    public void setMessageLength(short messageLength) {
+        this.messageLength = messageLength;
     }
 
     /**
@@ -251,7 +254,7 @@ public class CommonHeader implements Serializable {
         result = prime * result + ((sender == null) ? 0 : sender.hashCode());
         result = prime * result + sequenceNo;
         result = prime * result + ((sync == null) ? 0 : sync.hashCode());
-        result = prime * result + telegramLength;
+        result = prime * result + messageLength;
         return result;
     }
 
@@ -294,7 +297,7 @@ public class CommonHeader implements Serializable {
         } else if (!sync.equals(other.sync)) {
             return false;
         }
-        if (telegramLength != other.telegramLength) {
+        if (messageLength != other.messageLength) {
             return false;
         }
         return true;

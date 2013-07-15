@@ -26,9 +26,9 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.openwms.common.comm.tcpip.CommonMessage;
-import org.openwms.common.comm.tcpip.MessageMapper;
+import org.openwms.common.comm.common.CommonMessage;
 import org.openwms.common.comm.tcpip.exception.MessageMissmatchException;
+import org.openwms.common.comm.tcpip.mapper.MessageMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
