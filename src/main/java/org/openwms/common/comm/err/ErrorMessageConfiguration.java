@@ -18,26 +18,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm;
+package org.openwms.common.comm.err;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.MessageChannel;
+import org.springframework.integration.channel.DirectChannel;
 
 /**
- * A RespondingServiceActivator.
+ * A ErrorMessageConfiguration creates beans dynamically without the use of XML.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public interface RespondingServiceActivator<T extends CommonMessage, U extends CommonMessage> extends
-        CustomServiceActivator {
+@Configuration
+public class ErrorMessageConfiguration {
 
     /**
-     * Wake up a service, processor or bean an that accepts incoming messages of
-     * type <tt>T</tt> and returns messages of type <tt>U</tt>.
+     * Create a MessageChannel with the proper name dynamically.
      * 
-     * @param message
-     *            The message to forward
-     * @return The response returned from the service
+     * @return An DirectChannel instance
      */
-    U wakeUp(T message);
+    @Bean(name = ErrorMessageServiceActivator.INPUT_CHANNEL_NAME)
+    public MessageChannel getMessageChannel() {
+        return new DirectChannel();
+    }
 }

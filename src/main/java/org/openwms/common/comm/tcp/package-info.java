@@ -18,26 +18,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm;
-
-
 /**
- * A RespondingServiceActivator.
- * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision: $
- * @since 0.1
+ * Contains classes specific to the tcp/ip handling.
  */
-public interface RespondingServiceActivator<T extends CommonMessage, U extends CommonMessage> extends
-        CustomServiceActivator {
-
-    /**
-     * Wake up a service, processor or bean an that accepts incoming messages of
-     * type <tt>T</tt> and returns messages of type <tt>U</tt>.
-     * 
-     * @param message
-     *            The message to forward
-     * @return The response returned from the service
-     */
-    U wakeUp(T message);
-}
+package org.openwms.common.comm.tcp;

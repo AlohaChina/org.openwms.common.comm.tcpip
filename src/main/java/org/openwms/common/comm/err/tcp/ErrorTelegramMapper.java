@@ -22,10 +22,10 @@ package org.openwms.common.comm.err.tcp;
 
 import java.text.ParseException;
 
+import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.comm.MessageMapper;
-import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.err.ErrorMessage;
 import org.openwms.common.comm.exception.MessageMissmatchException;
 import org.slf4j.Logger;
@@ -50,13 +50,12 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorMessage> {
     public ErrorMessage mapTo(String telegram) {
         int startPayload = CommonHeader.getHeaderLength() + forType().length();
         int startCreateDate = startPayload + CommonMessage.getErrorCodeLength();
-
         try {
-            return new ErrorMessage.Builder()
+            return new ErrorMessage.Builder(new CommonHeader(telegram))
                     .withErrorCode(telegram.substring(startPayload, startCreateDate))
                     .withCreateDate(
-                            CommConstants.asDate(telegram.substring(startCreateDate, startCreateDate
-                                    + CommonMessage.getDateLength()))).build();
+                            CommConstants.asDate(telegram.substring(startCreateDate,
+                                    startCreateDate + CommonMessage.getDateLength()))).build();
         } catch (ParseException e) {
             if (LOGGER.isErrorEnabled()) {
                 LOGGER.error("Error while parsing telegram:" + e.getMessage());

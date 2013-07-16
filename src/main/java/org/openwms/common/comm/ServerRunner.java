@@ -20,24 +20,23 @@
  */
 package org.openwms.common.comm;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * A RespondingServiceActivator.
+ * A ServerRunner is bootstrapping the server's ApplicationContext.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public interface RespondingServiceActivator<T extends CommonMessage, U extends CommonMessage> extends
-        CustomServiceActivator {
+public class ServerRunner {
 
     /**
-     * Wake up a service, processor or bean an that accepts incoming messages of
-     * type <tt>T</tt> and returns messages of type <tt>U</tt>.
+     * FIXME [scherrer] Comment this
      * 
-     * @param message
-     *            The message to forward
-     * @return The response returned from the service
+     * @param args
      */
-    U wakeUp(T message);
+    public static void main(String[] args) {
+        new ClassPathXmlApplicationContext("META-INF/spring/module-context.xml");
+    }
 }

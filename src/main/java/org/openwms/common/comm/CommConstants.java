@@ -64,6 +64,10 @@ public class CommConstants {
         return DATE_FORMAT.format(date);
     }
 
+    public static String padRight(String s, int n) {
+        return String.format("%1$-" + n + "s", s).replace(" ", "*");
+    }
+
     /**
      * Create a new CommConstants.
      */

@@ -20,24 +20,32 @@
  */
 package org.openwms.common.comm;
 
+import org.springframework.integration.MessageChannel;
 
 /**
- * A RespondingServiceActivator.
+ * A CustomServiceActivator.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public interface RespondingServiceActivator<T extends CommonMessage, U extends CommonMessage> extends
-        CustomServiceActivator {
+public interface CustomServiceActivator {
 
     /**
-     * Wake up a service, processor or bean an that accepts incoming messages of
-     * type <tt>T</tt> and returns messages of type <tt>U</tt>.
+     * The input-channel instance that is used by the processor to process
+     * messages from.
      * 
-     * @param message
-     *            The message to forward
-     * @return The response returned from the service
+     * @return The encapsulated MessageChannel instance.
      */
-    U wakeUp(T message);
+    MessageChannel getChannel();
+
+    /**
+     * Returns the unique name of the MessageChannel that is used as
+     * input-channel for the processing messages.
+     * 
+     * @return Expected to be the unique name of the message concatenated with a
+     *         suffix, defined in {@link CommConstants#CHANNEL_SUFFIX}
+     */
+    String getChannelName();
+
 }

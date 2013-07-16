@@ -18,13 +18,18 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.err.tcp;
+package org.openwms.common.comm.tcp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
-import org.springframework.integration.ip.tcp.serializer.AbstractByteArraySerializer;
+import org.openwms.common.comm.CommonMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.serializer.Serializer;
 import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamException;
 
 /**
@@ -36,28 +41,52 @@ import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamExceptio
  * @version $Revision: $
  * @since 0.1
  */
-public class OSIPTelegramSerializer extends AbstractByteArraySerializer {
+public class OSIPTelegramSerializer implements Serializer<CommonMessage> {
+    protected int maxMessageSize = 2048;
+    private static final Logger LOGGER = LoggerFactory.getLogger(OSIPTelegramSerializer.class);
+    private static final byte[] CRLF = "\r\n".getBytes();
 
     /**
-     * @see org.springframework.core.serializer.Serializer#serialize(java.lang.Object,
-     *      java.io.OutputStream)
+     * Create a new OSIPTelegramSerializer and set the allowed message length to
+     * {@value TCPCommConstants.MAX_TELEGRAM_LENGTH} (see OSIP specification).
+     */
+    public OSIPTelegramSerializer() {
+        super();
+        maxMessageSize = TCPCommConstants.MAX_TELEGRAM_LENGTH;
+    }
+
+    protected void checkClosure(int bite) throws IOException {
+        if (bite < 0) {
+            LOGGER.debug("Socket closed during message assembly");
+            throw new IOException("Socket closed during message assembly");
+        }
+    }
+
+    /**
+     * Writes the source object to an output stream using Java Serialization.
+     * The source object must implement {@link Serializable}.
      */
     @Override
-    public void serialize(byte[] object, OutputStream outputStream) throws IOException {
-        outputStream.write(object);
-        outputStream.flush();
+    public void serialize(CommonMessage object, OutputStream outputStream) throws IOException {
+        if (!(object instanceof Serializable)) {
+            throw new IllegalArgumentException(getClass().getSimpleName() + " requires a Serializable payload "
+                    + "but received an object of type [" + object.getClass().getName() + "]");
+        }
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+        objectOutputStream.writeObject(object.toString().getBytes("UTF-8"));
+        objectOutputStream.write(CRLF);
+        objectOutputStream.flush();
     }
 
     /**
      * @see org.springframework.core.serializer.Deserializer#deserialize(java.io.InputStream)
      */
-    @Override
     public byte[] deserialize(InputStream inputStream) throws IOException {
         byte[] buffer = new byte[this.maxMessageSize];
         int n = 0;
         int bite;
-        if (logger.isDebugEnabled()) {
-            logger.debug("Available to read:" + inputStream.available());
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Available to read:" + inputStream.available());
         }
         while (true) {
             bite = inputStream.read();

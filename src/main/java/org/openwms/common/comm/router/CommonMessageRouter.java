@@ -28,6 +28,7 @@ import javax.annotation.PostConstruct;
 
 import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.CommonMessage;
+import org.openwms.common.comm.CustomServiceActivator;
 import org.openwms.common.comm.RespondingServiceActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.MessageChannel;
@@ -35,10 +36,11 @@ import org.springframework.integration.annotation.Router;
 import org.springframework.stereotype.Component;
 
 /**
- * A CommonMessageRouter collects all {@link RespondingServiceActivator}s from the
- * ApplicationContext and tries to find a suitable {@link RespondingServiceActivator} when
- * an incoming message arrives. If no suitable processor is found, the message
- * will be delegated to the default exception channel.
+ * A CommonMessageRouter collects all {@link RespondingServiceActivator}s from
+ * the ApplicationContext and tries to find a suitable
+ * {@link RespondingServiceActivator} when an incoming message arrives. If no
+ * suitable processor is found, the message will be delegated to the default
+ * exception channel.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
@@ -48,16 +50,16 @@ import org.springframework.stereotype.Component;
 public class CommonMessageRouter {
 
     @Autowired
-    private List<RespondingServiceActivator> processors;
-    private final Map<String, RespondingServiceActivator> processorMap = new HashMap<String, RespondingServiceActivator>();
+    private List<CustomServiceActivator> processors;
+    private final Map<String, CustomServiceActivator> processorMap = new HashMap<String, CustomServiceActivator>();
 
     /**
-     * From all existing {@link RespondingServiceActivator}s build up a Map with key
-     * equals to channelName.
+     * From all existing {@link RespondingServiceActivator}s build up a Map with
+     * key equals to channelName.
      */
     @PostConstruct
     void onPostConstruct() {
-        for (RespondingServiceActivator processor : processors) {
+        for (CustomServiceActivator processor : processors) {
             processorMap.put(processor.getChannelName(), processor);
         }
     }

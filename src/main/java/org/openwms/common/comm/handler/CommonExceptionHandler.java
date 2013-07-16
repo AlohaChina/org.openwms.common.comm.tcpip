@@ -20,6 +20,7 @@
  */
 package org.openwms.common.comm.handler;
 
+import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.err.ErrorCodes;
 import org.openwms.common.comm.err.ErrorMessage;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommonExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MessageMissmatchHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonExceptionHandler.class);
 
     /**
      * Create a new CommonExceptionHandler.
@@ -55,6 +56,10 @@ public class CommonExceptionHandler {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Common error: " + telegram);
         }
-        return new ErrorMessage.Builder().withErrorCode(ErrorCodes.UNKNOWN_MESSAGE_TYPE).withCreateDate().build();
+        CommonHeader header = new CommonHeader(telegram);
+        String sender = header.getSender();
+        header.setSender(header.getReceiver());
+        header.setReceiver(sender);
+        return new ErrorMessage.Builder(header).withErrorCode(ErrorCodes.UNKNOWN_MESSAGE_TYPE).withCreateDate().build();
     }
 }

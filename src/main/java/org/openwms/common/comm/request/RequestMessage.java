@@ -20,13 +20,12 @@
  */
 package org.openwms.common.comm.request;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.domain.LocationPK;
 import org.openwms.common.domain.values.Barcode;
-import org.springframework.core.serializer.Serializer;
 
 /**
  * A RequestMessage requests an order for a TransportUnit with id
@@ -59,16 +58,6 @@ public class RequestMessage extends CommonMessage {
     @Override
     public String getMessageIdentifier() {
         return identifier;
-    }
-
-    /**
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "RequestMessage [identifier=" + IDENTIFIER + ", barcode=" + barcode + ", actualLocation="
-                + actualLocation + ", targetLocation=" + targetLocation + ", errorCode=" + getErrorCode()
-                + ", created=" + getCreated() + "]";
     }
 
     /**
@@ -120,12 +109,14 @@ public class RequestMessage extends CommonMessage {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#serialize(org.springframework.core.serializer.Serializer)
+     * @see org.openwms.common.comm.CommonMessage#toString()
      */
     @Override
-    public String serialize(Serializer<Serializable> serializer) {
-        // TODO [scherrer] Auto-generated method stub
-        return null;
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.append(IDENTIFIER).append(this.barcode).append(this.actualLocation).append(this.targetLocation)
+                .append(getErrorCode()).append(CommConstants.asString(super.getCreated()));
+        return sb.toString();
     }
 
     /**

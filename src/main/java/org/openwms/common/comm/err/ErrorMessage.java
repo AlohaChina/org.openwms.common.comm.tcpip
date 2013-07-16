@@ -20,12 +20,11 @@
  */
 package org.openwms.common.comm.err;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
-import org.springframework.core.serializer.Serializer;
 
 /**
  * A ErrorMessage.
@@ -75,9 +74,11 @@ public class ErrorMessage extends CommonMessage {
 
         /**
          * Create a new Builder.
+         * 
+         * @param header
          */
-        public Builder() {
-            this.message = new ErrorMessage();
+        public Builder(CommonHeader header) {
+            this.message = new ErrorMessage(header);
         }
 
         /**
@@ -124,19 +125,20 @@ public class ErrorMessage extends CommonMessage {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#serialize(org.springframework.core.serializer.Serializer)
-     */
-    @Override
-    public String serialize(Serializer<Serializable> serializer) {
-        // TODO [scherrer] Auto-generated method stub
-        return null;
-    }
-
-    /**
      * @see org.openwms.common.comm.CommonMessage#isWithoutReply()
      */
     @Override
     public boolean isWithoutReply() {
         return true;
+    }
+
+    /**
+     * @see org.openwms.common.comm.CommonMessage#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString()).append(IDENTIFIER).append(getErrorCode())
+                .append(CommConstants.asString(super.getCreated()));
+        return CommConstants.padRight(sb.toString(), getHeader().getMessageLength());
     }
 }

@@ -24,7 +24,6 @@ import java.io.Serializable;
 
 import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
-import org.springframework.core.serializer.Serializer;
 
 /**
  * A ResponseMessage.
@@ -62,12 +61,13 @@ public class ResponseMessage extends CommonMessage implements Serializable {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#serialize(org.springframework.core.serializer.Serializer)
+     * @see org.openwms.common.comm.CommonMessage#toString()
      */
     @Override
-    public String serialize(Serializer<Serializable> serializer) {
-        // TODO [scherrer] Auto-generated method stub
-        return null;
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.append(IDENTIFIER).append(getErrorCode()).append(super.getCreated());
+        return sb.toString();
     }
 
     /**

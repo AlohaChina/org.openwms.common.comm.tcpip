@@ -18,25 +18,21 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.handler;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+package org.openwms.common.comm.tcp;
 
 /**
- * A ServerRunner is bootstrapping the server's ApplicationContext.
+ * A TCPCommConstants.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public class ServerRunner {
+public final class TCPCommConstants {
+
+    public static final int MAX_TELEGRAM_LENGTH = 99999;
 
     /**
-     * FIXME [scherrer] Comment this
-     * 
-     * @param args
+     * Create a new TCPCommConstants.
      */
-    public static void main(String[] args) {
-        new ClassPathXmlApplicationContext("META-INF/spring/module-context.xml");
-    }
+    private TCPCommConstants() {}
 }

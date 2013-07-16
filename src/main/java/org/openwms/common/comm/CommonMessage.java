@@ -23,8 +23,6 @@ package org.openwms.common.comm;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.core.serializer.Serializer;
-
 /**
  * A CommonMessage is the abstract superclass of all messages sent to subsystems
  * like PLC or ERP. A CommonMessage has always a message header and a body.
@@ -94,15 +92,20 @@ public abstract class CommonMessage implements Serializable {
      */
     public abstract String getMessageIdentifier();
 
-    // TODO [scherrer] : remove this it is specific to telegrams.
-    public abstract String serialize(Serializer<Serializable> serializer);
-
     /**
      * Does this type of message needs to be replied to?
      * 
      * @return <code>true</code> no reply needed, otherwise <code>false</code>
      */
     public abstract boolean isWithoutReply();
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return header.toString();
+    }
 
     /**
      * Get the header.

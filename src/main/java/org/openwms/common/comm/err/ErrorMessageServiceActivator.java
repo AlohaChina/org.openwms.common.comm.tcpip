@@ -18,10 +18,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.request;
+package org.openwms.common.comm.err;
 
 import org.openwms.common.comm.CommConstants;
-import org.openwms.common.comm.RespondingServiceActivator;
+import org.openwms.common.comm.NotRespondingServiceActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.integration.MessageChannel;
@@ -29,37 +29,25 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
 /**
- * A RequestMessageServiceActivator takes incoming {@link RequestMessage}s and
- * delegates them to an application POJO.
+ * A ErrorMessageServiceActivator.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
 @Component
-public class RequestMessageServiceActivator implements RespondingServiceActivator<RequestMessage, ResponseMessage> {
-
+public class ErrorMessageServiceActivator implements NotRespondingServiceActivator<ErrorMessage> {
     /**
      * The name of the MessageChannel used as input-channel of this message
      * processor.
      */
-    public static final String INPUT_CHANNEL_NAME = RequestMessage.IDENTIFIER + CommConstants.CHANNEL_SUFFIX;
+    public static final String INPUT_CHANNEL_NAME = ErrorMessage.IDENTIFIER + CommConstants.CHANNEL_SUFFIX;
 
     @Autowired
     private ApplicationContext ctx;
 
     /**
-     * @see org.openwms.common.comm.RespondingServiceActivator#wakeUp(org.openwms.common.comm.CommonMessage)
-     */
-    @Override
-    @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME, outputChannel = "")
-    public ResponseMessage wakeUp(RequestMessage message) {
-        System.out.println("Call Service for ErrorMessage");
-        return null;
-    }
-
-    /**
-     * @see org.openwms.common.comm.RespondingServiceActivator#getChannel()
+     * @see org.openwms.common.comm.NotRespondingServiceActivator#getChannel()
      */
     @Override
     public MessageChannel getChannel() {
@@ -67,10 +55,20 @@ public class RequestMessageServiceActivator implements RespondingServiceActivato
     }
 
     /**
-     * @see org.openwms.common.comm.RespondingServiceActivator#getChannelName()
+     * @see org.openwms.common.comm.NotRespondingServiceActivator#getChannelName()
      */
     @Override
     public String getChannelName() {
         return INPUT_CHANNEL_NAME;
     }
+
+    /**
+     * @see org.openwms.common.comm.NotRespondingServiceActivator#wakeUp(org.openwms.common.comm.CommonMessage)
+     */
+    @Override
+    @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME)
+    public void wakeUp(ErrorMessage message) {
+        System.out.println("Call Service for ErrorMessage");
+    }
+
 }
