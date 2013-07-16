@@ -39,13 +39,14 @@
         <bean class="org.openwms.common.comm.converter.ByteArrayToStringConverter" />
     </int:converter>
     <bean id="bySerializer" class="org.springframework.integration.ip.tcp.serializer.ByteArrayCrLfSerializer" />
+    <bean id="telegramSerializer" class="org.openwms.common.comm.err.tcp.ErrorTelegramSerializer" />
 
-<task:executor id="taskExecutor" queue-capacity="25" />
+    <task:executor id="taskExecutor" queue-capacity="25" />
     <int:poller default="true" fixed-rate="1000"></int:poller>
 
 
     <ip:tcp-connection-factory id="server" type="server" port="30000" using-nio="true"
-        serializer="bySerializer" deserializer="bySerializer" />
+        serializer="telegramSerializer" deserializer="telegramSerializer"/>
 
     <ip:tcp-inbound-channel-adapter id="inAdapter.server" channel="inboundChannel"
         connection-factory="server" />
@@ -60,9 +61,6 @@
         <int:dispatcher task-executor="taskExecutor"/>
     </int:channel>
     
-    <!--int:service-activator input-channel="transformerOutput" output-channel="outboundChannel" ref="telegramHandler"
-        method="test" /-->
-
     <int:channel id="outboundChannel">
         <int:queue capacity="25"/>
     </int:channel>

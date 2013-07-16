@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.springframework.integration.ip.tcp.serializer.AbstractByteArraySerializer;
+import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamException;
 
 /**
  * A ErrorTelegramSerializer.
@@ -36,20 +37,13 @@ import org.springframework.integration.ip.tcp.serializer.AbstractByteArraySerial
 public class ErrorTelegramSerializer extends AbstractByteArraySerializer {
 
     /**
-     * Create a new ErrorMessageSerializer.
-     */
-    public ErrorTelegramSerializer() {
-        // TODO [scherrer] Auto-generated constructor stub
-    }
-
-    /**
      * @see org.springframework.core.serializer.Serializer#serialize(java.lang.Object,
      *      java.io.OutputStream)
      */
     @Override
     public void serialize(byte[] object, OutputStream outputStream) throws IOException {
-        // TODO [scherrer] Auto-generated method stub
-
+        outputStream.write(object);
+        outputStream.flush();
     }
 
     /**
@@ -57,8 +51,29 @@ public class ErrorTelegramSerializer extends AbstractByteArraySerializer {
      */
     @Override
     public byte[] deserialize(InputStream inputStream) throws IOException {
-        // TODO [scherrer] Auto-generated method stub
-        return null;
+        byte[] buffer = new byte[this.maxMessageSize];
+        int n = 0;
+        int bite;
+        if (logger.isDebugEnabled()) {
+            logger.debug("Available to read:" + inputStream.available());
+        }
+        while (true) {
+            bite = inputStream.read();
+            if (bite < 0 && n == 0) {
+                throw new SoftEndOfStreamException("Stream closed between payloads");
+            }
+            checkClosure(bite);
+            if (n > 0 && bite == '#' && buffer[n - 1] == '#' && bite == '#' && buffer[n - 2] == '#') {
+                break;
+            }
+            buffer[n++] = (byte) bite;
+            if (n >= this.maxMessageSize) {
+                throw new IOException("CRLF not found before max message length: " + this.maxMessageSize);
+            }
+        };
+        byte[] assembledData = new byte[n - 2];
+        System.arraycopy(buffer, 0, assembledData, 0, n - 2);
+        return assembledData;
     }
 
 }
