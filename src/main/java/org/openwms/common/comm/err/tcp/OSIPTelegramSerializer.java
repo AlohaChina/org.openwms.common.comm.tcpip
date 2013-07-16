@@ -28,13 +28,15 @@ import org.springframework.integration.ip.tcp.serializer.AbstractByteArraySerial
 import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamException;
 
 /**
- * A ErrorTelegramSerializer.
+ * An OSIPTelegramSerializer is able to read OSIP telegram structures from an
+ * InputStream (deserialization) and can also serialize Object structures into
+ * OSIP telegrams.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public class ErrorTelegramSerializer extends AbstractByteArraySerializer {
+public class OSIPTelegramSerializer extends AbstractByteArraySerializer {
 
     /**
      * @see org.springframework.core.serializer.Serializer#serialize(java.lang.Object,
