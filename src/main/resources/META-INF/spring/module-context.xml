@@ -45,41 +45,37 @@
     <bean id="deserializer" class="org.springframework.core.serializer.DefaultDeserializer" />
 
     <task:executor id="taskExecutor" queue-capacity="25" />
-    <int:poller default="true" fixed-rate="1000"></int:poller>
-
 
     <ip:tcp-connection-factory id="server" type="server" port="30000" so-timeout="60000" using-nio="false"
-        serializer="telegramSerializer" deserializer="bySerializer"/>
+        serializer="telegramSerializer" deserializer="bySerializer" so-receive-buffer-size="140" so-send-buffer-size="140" />
 
-    <ip:tcp-inbound-channel-adapter id="inAdapter.server" channel="inboundChannel"
+    <ip:tcp-inbound-channel-adapter id="inboundAdapter" channel="inboundChannel"
         connection-factory="server" />
 
     <int:channel id="inboundChannel" datatype="java.lang.String">
-        <int:queue capacity="25"/>
+        <!--int:queue capacity="25"/-->
     </int:channel>
 
     <int:transformer input-channel="inboundChannel" output-channel="transformerOutput" ref="commonMessageTransformer" />
-
-    <int:channel id="transformerOutput">
-    </int:channel>
+    <int:channel id="transformerOutput" />
 
     
     
     
     <int:channel id="outboundChannel">
-        <int:queue capacity="25"/>
+        <!--int:queue capacity="25"/-->
     </int:channel>
-    <ip:tcp-outbound-channel-adapter id="outAdapter.server" channel="outboundChannel"
+    <ip:tcp-outbound-channel-adapter id="outboundAdapter" channel="outboundChannel"
         connection-factory="server" />
         
         
         
         
-    <!--Error handling -->
+    <!--Error handling >
     <int:exception-type-router input-channel="inboundChannel" default-output-channel="commonExceptionChannel">
         <int:mapping exception-type="org.openwms.common.comm.exception.MessageMissmatchException" channel="errExceptionChannel" />
         <int:mapping exception-type="java.lang.Exception" channel="commonExceptionChannel" />
-    </int:exception-type-router>
+    </int:exception-type-router-->
 
     <int:channel id="commonExceptionChannel" />
     <int:channel id="errExceptionChannel" />

@@ -28,6 +28,7 @@ import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.comm.MessageMapper;
 import org.openwms.common.comm.err.ErrorMessage;
 import org.openwms.common.comm.exception.MessageMissmatchException;
+import org.openwms.common.comm.util.CommonMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,7 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorMessage> {
         int startPayload = CommonHeader.getHeaderLength() + forType().length();
         int startCreateDate = startPayload + CommonMessage.getErrorCodeLength();
         try {
-            return new ErrorMessage.Builder(new CommonHeader(telegram))
+            return new ErrorMessage.Builder(CommonMessageFactory.createHeader(telegram))
                     .withErrorCode(telegram.substring(startPayload, startCreateDate))
                     .withCreateDate(
                             CommConstants.asDate(telegram.substring(startCreateDate,

@@ -49,11 +49,6 @@ public class ErrorMessage extends CommonMessage {
     }
 
     /**
-     * Create a new ErrorMessage.
-     */
-    public ErrorMessage() {}
-
-    /**
      * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
      */
     @Override

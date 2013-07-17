@@ -23,6 +23,7 @@ package org.openwms.common.comm.request;
 import java.util.Date;
 
 import org.openwms.common.comm.CommConstants;
+import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.domain.LocationPK;
 import org.openwms.common.domain.values.Barcode;
@@ -48,9 +49,11 @@ public class RequestMessage extends CommonMessage {
     /**
      * Create a new RequestMessage.
      * 
-     * @param telegram
+     * @param header
      */
-    public RequestMessage() {}
+    public RequestMessage(CommonHeader header) {
+        super(header);
+    }
 
     /**
      * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
@@ -74,8 +77,8 @@ public class RequestMessage extends CommonMessage {
         /**
          * Create a new RequestMessage.Builder.
          */
-        public Builder() {
-            this.requestMessage = new RequestMessage();
+        public Builder(CommonHeader header) {
+            this.requestMessage = new RequestMessage(header);
         }
 
         public Builder withBarcode(Barcode barcode) {

@@ -34,7 +34,7 @@ import java.util.Date;
 public abstract class CommonMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private CommonHeader header;
+    private final CommonHeader header;
     private String errorCode;
     private Date created;
 
@@ -49,22 +49,6 @@ public abstract class CommonMessage implements Serializable {
      */
     public CommonMessage(CommonHeader header) {
         this.header = header;
-    }
-
-    /**
-     * Create a new CommonMessage.
-     */
-    public CommonMessage() {}
-
-    /**
-     * FIXME [scherrer] Comment this
-     * 
-     * @param telegram
-     * @return
-     */
-    // TODO [scherrer] : remove this it is specific to telegrams.
-    public CommonHeader createHeader(String telegram) {
-        return new CommonHeader(telegram);
     }
 
     /**
@@ -156,6 +140,9 @@ public abstract class CommonMessage implements Serializable {
      * @return the created.
      */
     public Date getCreated() {
+        if (created == null) {
+            created = new Date();
+        }
         return created;
     }
 

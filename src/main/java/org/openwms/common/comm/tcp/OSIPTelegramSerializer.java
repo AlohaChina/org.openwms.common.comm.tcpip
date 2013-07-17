@@ -73,7 +73,7 @@ public class OSIPTelegramSerializer implements Serializer<CommonMessage> {
                     + "but received an object of type [" + object.getClass().getName() + "]");
         }
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-        objectOutputStream.writeObject(object.toString().getBytes("UTF-8"));
+        objectOutputStream.writeObject(object.toString());
         objectOutputStream.write(CRLF);
         objectOutputStream.flush();
     }

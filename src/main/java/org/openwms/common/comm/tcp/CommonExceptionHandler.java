@@ -18,11 +18,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.common.comm.handler;
+package org.openwms.common.comm.tcp;
 
 import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.err.ErrorCodes;
 import org.openwms.common.comm.err.ErrorMessage;
+import org.openwms.common.comm.util.CommonMessageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -56,7 +57,7 @@ public class CommonExceptionHandler {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Common error: " + telegram);
         }
-        CommonHeader header = new CommonHeader(telegram);
+        CommonHeader header = CommonMessageFactory.createHeader(telegram);
         String sender = header.getSender();
         header.setSender(header.getReceiver());
         header.setReceiver(sender);

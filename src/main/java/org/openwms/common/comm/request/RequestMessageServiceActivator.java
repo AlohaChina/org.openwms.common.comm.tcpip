@@ -52,10 +52,10 @@ public class RequestMessageServiceActivator implements RespondingServiceActivato
      * @see org.openwms.common.comm.RespondingServiceActivator#wakeUp(org.openwms.common.comm.CommonMessage)
      */
     @Override
-    @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME, outputChannel = "")
+    @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME, outputChannel = "outboundChannel")
     public ResponseMessage wakeUp(RequestMessage message) {
         System.out.println("Call Service for ErrorMessage");
-        return null;
+        return new ResponseMessage(message.getHeader());
     }
 
     /**

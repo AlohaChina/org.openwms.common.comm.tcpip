@@ -22,6 +22,7 @@ package org.openwms.common.comm.request;
 
 import java.io.Serializable;
 
+import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
 
@@ -48,11 +49,6 @@ public class ResponseMessage extends CommonMessage implements Serializable {
     }
 
     /**
-     * Create a new ResponseMessage.
-     */
-    public ResponseMessage() {}
-
-    /**
      * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
      */
     @Override
@@ -66,8 +62,8 @@ public class ResponseMessage extends CommonMessage implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
-        sb.append(IDENTIFIER).append(getErrorCode()).append(super.getCreated());
-        return sb.toString();
+        sb.append(IDENTIFIER).append(getErrorCode()).append(CommConstants.asString(super.getCreated()));
+        return CommConstants.padRight(sb.toString(), getHeader().getMessageLength());
     }
 
     /**

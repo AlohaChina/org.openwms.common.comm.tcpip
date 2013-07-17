@@ -46,11 +46,6 @@ public class CommonHeader implements Serializable {
 
     /**
      * Create a new CommonHeader.
-     */
-    public CommonHeader() {}
-
-    /**
-     * Create a new CommonHeader.
      * 
      * @param sync
      * @param messageLength
