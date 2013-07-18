@@ -99,7 +99,7 @@ public class OSIPTelegramSerializer implements Serializer<CommonMessage> {
             if (n >= this.maxMessageSize) {
                 throw new IOException("CRLF not found before max message length: " + this.maxMessageSize);
             }
-        };
+        }
         byte[] assembledData = new byte[n - 2];
         System.arraycopy(buffer, 0, assembledData, 0, n - 2);
         return assembledData;

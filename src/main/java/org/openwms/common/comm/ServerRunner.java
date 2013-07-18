@@ -29,12 +29,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @version $Revision: $
  * @since 0.1
  */
-public class ServerRunner {
+public final class ServerRunner {
 
     /**
      * Create a new ServerRunner.
      */
-    public ServerRunner() {}
+    private ServerRunner() {}
 
     /**
      * Create the application.

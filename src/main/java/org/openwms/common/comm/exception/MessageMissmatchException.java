@@ -22,7 +22,7 @@ package org.openwms.common.comm.exception;
 
 /**
  * A MessageMissmatchException indicates that an incoming message is not in
- * expected format
+ * expected format.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $

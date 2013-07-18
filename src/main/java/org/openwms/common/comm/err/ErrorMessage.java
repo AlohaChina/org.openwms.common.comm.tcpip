@@ -37,6 +37,7 @@ public class ErrorMessage extends CommonMessage {
 
     private static final long serialVersionUID = 1L;
     private final String messageIdentifier = IDENTIFIER;
+    /** Message identifier {@value} . */
     public static final String IDENTIFIER = "ERR_";
 
     /**

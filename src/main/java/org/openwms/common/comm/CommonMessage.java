@@ -94,7 +94,7 @@ public abstract class CommonMessage implements Serializable {
     public abstract boolean isWithoutReply();
 
     /**
-     * // * {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
