@@ -7,9 +7,9 @@
         <artifactId>org.openwms.common</artifactId>
         <version>0.1.1-SNAPSHOT</version>
     </parent>
-    <artifactId>org.openwms.common.comm.tcpip</artifactId>
+    <artifactId>org.openwms.common.comm</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>org.openwms.common.comm.tcpip</name>
+    <name>org.openwms.common.comm</name>
 
     <dependencies>
         <!-- Spring Framework -->
