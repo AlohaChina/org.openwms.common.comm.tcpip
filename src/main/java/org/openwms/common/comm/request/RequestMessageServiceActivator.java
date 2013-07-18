@@ -49,17 +49,16 @@ public class RequestMessageServiceActivator implements RespondingServiceActivato
     private ApplicationContext ctx;
 
     /**
-     * @see org.openwms.common.comm.RespondingServiceActivator#wakeUp(org.openwms.common.comm.CommonMessage)
+     * {@inheritDoc}
      */
     @Override
     @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME, outputChannel = "outboundChannel")
     public ResponseMessage wakeUp(RequestMessage message) {
-        System.out.println("Call Service for ErrorMessage");
         return new ResponseMessage(message.getHeader());
     }
 
     /**
-     * @see org.openwms.common.comm.RespondingServiceActivator#getChannel()
+     * {@inheritDoc}
      */
     @Override
     public MessageChannel getChannel() {
@@ -67,7 +66,7 @@ public class RequestMessageServiceActivator implements RespondingServiceActivato
     }
 
     /**
-     * @see org.openwms.common.comm.RespondingServiceActivator#getChannelName()
+     * {@inheritDoc}
      */
     @Override
     public String getChannelName() {

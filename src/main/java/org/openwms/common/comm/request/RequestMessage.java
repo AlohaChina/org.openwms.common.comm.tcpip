@@ -39,6 +39,7 @@ import org.openwms.common.domain.values.Barcode;
 public class RequestMessage extends CommonMessage {
 
     private static final long serialVersionUID = 1L;
+    /** Message identifier {@value} . */
     public static final String IDENTIFIER = "REQ_";
     private final String identifier = IDENTIFIER;
 
@@ -50,13 +51,14 @@ public class RequestMessage extends CommonMessage {
      * Create a new RequestMessage.
      * 
      * @param header
+     *            The message header
      */
     public RequestMessage(CommonHeader header) {
         super(header);
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
+     * {@inheritDoc}
      */
     @Override
     public String getMessageIdentifier() {
@@ -76,43 +78,86 @@ public class RequestMessage extends CommonMessage {
 
         /**
          * Create a new RequestMessage.Builder.
+         * 
+         * @param header
+         *            The message header
          */
         public Builder(CommonHeader header) {
             this.requestMessage = new RequestMessage(header);
         }
 
+        /**
+         * Add an {@link Barcode} to the message.
+         * 
+         * @param barcode
+         *            The barcode
+         * @return The builder
+         */
         public Builder withBarcode(Barcode barcode) {
             requestMessage.barcode = barcode;
             return this;
         }
 
+        /**
+         * Add a target <tt>Location</tt> identified by a {@link LocationPK}.
+         * 
+         * @param actualLocation
+         *            The {@link LocationPK} of the actual location
+         * @return The builder
+         */
         public Builder withActualLocation(LocationPK actualLocation) {
             requestMessage.actualLocation = actualLocation;
             return this;
         }
 
+        /**
+         * Add a target <tt>Location</tt> identified by a {@link LocationPK}.
+         * 
+         * @param targetLocation
+         *            The {@link LocationPK} of the target location
+         * @return The builder
+         */
         public Builder withTargetLocation(LocationPK targetLocation) {
             requestMessage.targetLocation = targetLocation;
             return this;
         }
 
+        /**
+         * Add an error code.
+         * 
+         * @param errorCode
+         *            The error code
+         * @return The builder
+         */
         public Builder withErrorCode(String errorCode) {
             requestMessage.setErrorCode(errorCode);
             return this;
         }
 
+        /**
+         * Add the date of creation.
+         * 
+         * @param createDate
+         *            The creation date
+         * @return The builder
+         */
         public Builder withCreateDate(Date createDate) {
             requestMessage.setCreated(createDate);
             return this;
         }
 
+        /**
+         * Finally build the message.
+         * 
+         * @return The completed message
+         */
         public RequestMessage build() {
             return requestMessage;
         }
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#toString()
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
@@ -123,7 +168,7 @@ public class RequestMessage extends CommonMessage {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#isWithoutReply()
+     * {@inheritDoc}
      */
     @Override
     public boolean isWithoutReply() {

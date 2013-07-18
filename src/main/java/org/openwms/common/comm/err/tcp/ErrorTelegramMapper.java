@@ -47,7 +47,7 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorMessage> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramMapper.class);
 
     /**
-     * @see org.openwms.common.comm.MessageMapper#mapTo(java.lang.String)
+     * {@inheritDoc}
      */
     @Override
     public ErrorMessage mapTo(String telegram) {
@@ -68,7 +68,7 @@ public class ErrorTelegramMapper implements MessageMapper<ErrorMessage> {
     }
 
     /**
-     * @see org.openwms.common.comm.MessageMapper#forType()
+     * {@inheritDoc}
      */
     @Override
     public String forType() {

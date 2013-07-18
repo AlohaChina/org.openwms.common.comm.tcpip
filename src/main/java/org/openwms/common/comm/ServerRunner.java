@@ -32,9 +32,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ServerRunner {
 
     /**
-     * FIXME [scherrer] Comment this
+     * Create a new ServerRunner.
+     */
+    public ServerRunner() {}
+
+    /**
+     * Create the application.
      * 
      * @param args
+     *            Args
      */
     public static void main(String[] args) {
         new ClassPathXmlApplicationContext("META-INF/spring/module-context.xml");

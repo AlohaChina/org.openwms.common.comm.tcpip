@@ -40,11 +40,12 @@ public abstract class CommonMessage implements Serializable {
 
     private static final short ERROR_CODE_LENGTH = 8;
     private static final short DATE_LENGTH = 14;
+    private static final int MESSAGE_IDENTIFIER_LENGTH = 4;
 
     /**
      * Create a new CommonMessage.
      * 
-     * @param herader
+     * @param header
      *            The message header
      */
     public CommonMessage(CommonHeader header) {
@@ -77,6 +78,15 @@ public abstract class CommonMessage implements Serializable {
     public abstract String getMessageIdentifier();
 
     /**
+     * Return the length of the message identifier in number of characters.
+     * 
+     * @return Number of Unicode code units of the message identifier
+     */
+    public static int getMessageIdentifierLength() {
+        return MESSAGE_IDENTIFIER_LENGTH;
+    }
+
+    /**
      * Does this type of message needs to be replied to?
      * 
      * @return <code>true</code> no reply needed, otherwise <code>false</code>
@@ -84,7 +94,7 @@ public abstract class CommonMessage implements Serializable {
     public abstract boolean isWithoutReply();
 
     /**
-     * @see java.lang.Object#toString()
+     * // * {@inheritDoc}
      */
     @Override
     public String toString() {

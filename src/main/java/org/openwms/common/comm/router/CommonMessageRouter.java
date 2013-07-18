@@ -29,16 +29,15 @@ import javax.annotation.PostConstruct;
 import org.openwms.common.comm.CommConstants;
 import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.comm.CustomServiceActivator;
-import org.openwms.common.comm.RespondingServiceActivator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.MessageChannel;
 import org.springframework.integration.annotation.Router;
 import org.springframework.stereotype.Component;
 
 /**
- * A CommonMessageRouter collects all {@link RespondingServiceActivator}s from
- * the ApplicationContext and tries to find a suitable
- * {@link RespondingServiceActivator} when an incoming message arrives. If no
+ * A CommonMessageRouter collects all {@link CustomServiceActivator}s from the
+ * ApplicationContext and tries to find a suitable
+ * {@link CustomServiceActivator} when an incoming message arrives. If no
  * suitable processor is found, the message will be delegated to the default
  * exception channel.
  * 
@@ -54,8 +53,8 @@ public class CommonMessageRouter {
     private final Map<String, CustomServiceActivator> processorMap = new HashMap<String, CustomServiceActivator>();
 
     /**
-     * From all existing {@link RespondingServiceActivator}s build up a Map with
-     * key equals to channelName.
+     * From all existing {@link CustomServiceActivator}s build up a Map with key
+     * equals to channelName.
      */
     @PostConstruct
     void onPostConstruct() {

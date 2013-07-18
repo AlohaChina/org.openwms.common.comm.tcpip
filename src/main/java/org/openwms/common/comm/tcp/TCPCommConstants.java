@@ -21,6 +21,7 @@
 package org.openwms.common.comm.tcp;
 
 import org.openwms.common.comm.CommonHeader;
+import org.openwms.common.comm.CommonMessage;
 
 /**
  * A TCPCommConstants.
@@ -31,10 +32,11 @@ import org.openwms.common.comm.CommonHeader;
  */
 public final class TCPCommConstants {
 
+    /** Maximum telegram length. */
     public static final int MAX_TELEGRAM_LENGTH = 99999;
 
     /**
-     * Create a new TCPCommConstants.
+     * Hide Constructor.
      */
     private TCPCommConstants() {}
 
@@ -47,9 +49,8 @@ public final class TCPCommConstants {
      *            The telegram String to resolve the type for
      * @return The telegram type as case-insensitive String
      */
-    // TODO [scherrer] : remove this it is specific to telegrams.
-    public static final String getTelegramType(String telegram) {
+    public static String getTelegramType(String telegram) {
         short headerLength = CommonHeader.getHeaderLength();
-        return telegram.substring(headerLength, headerLength + 4);
+        return telegram.substring(headerLength, headerLength + CommonMessage.getMessageIdentifierLength());
     }
 }

@@ -31,7 +31,7 @@ package org.openwms.common.comm.err;
 public final class ErrorCodes {
 
     /** Indicates an unknown, not transformable message type {@value} . */
-    public static String UNKNOWN_MESSAGE_TYPE = "00000010";
+    public static final String UNKNOWN_MESSAGE_TYPE = "00000010";
 
     /**
      * Hide constructor.

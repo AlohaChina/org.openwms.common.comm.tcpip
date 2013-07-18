@@ -31,11 +31,12 @@ import org.openwms.common.comm.CommonMessage;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * 
+ * @since 0.1
  */
 public class ResponseMessage extends CommonMessage implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    /** Message identifier {@value} . */
     public static final String IDENTIFIER = "RES_";
     private final String identifier = IDENTIFIER;
 
@@ -43,13 +44,14 @@ public class ResponseMessage extends CommonMessage implements Serializable {
      * Create a new ResponseMessage.
      * 
      * @param header
+     *            The message header
      */
     public ResponseMessage(CommonHeader header) {
         super(header);
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
+     * {@inheritDoc}
      */
     @Override
     public String getMessageIdentifier() {
@@ -57,7 +59,7 @@ public class ResponseMessage extends CommonMessage implements Serializable {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#toString()
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
@@ -67,7 +69,7 @@ public class ResponseMessage extends CommonMessage implements Serializable {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#isWithoutReply()
+     * {@inheritDoc}
      */
     @Override
     public boolean isWithoutReply() {

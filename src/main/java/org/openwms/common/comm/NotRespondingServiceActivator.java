@@ -23,6 +23,8 @@ package org.openwms.common.comm;
 /**
  * A NotRespondingServiceActivator.
  * 
+ * @param <T>
+ *            A type of incoming CommonMessage
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
@@ -35,7 +37,6 @@ public interface NotRespondingServiceActivator<T extends CommonMessage> extends 
      * 
      * @param message
      *            The message to forward
-     * @return The response returned from the service
      */
     void wakeUp(T message);
 

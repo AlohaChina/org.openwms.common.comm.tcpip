@@ -42,15 +42,12 @@ public class CommonExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonExceptionHandler.class);
 
     /**
-     * Create a new CommonExceptionHandler.
-     */
-    public CommonExceptionHandler() {}
-
-    /**
-     * FIXME [scherrer] Comment this
+     * Reply to incoming OSIP telegrams on the inputChannel with an
+     * {@link ErrorMessage} o the outputChannel.
      * 
      * @param telegram
-     * @return
+     *            The incoming OSIP telegram
+     * @return An {@link ErrorMessage}
      */
     @ServiceActivator(inputChannel = "commonExceptionChannel", outputChannel = "outboundChannel")
     public ErrorMessage handle(String telegram) {

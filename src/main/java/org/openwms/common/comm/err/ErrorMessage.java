@@ -43,13 +43,14 @@ public class ErrorMessage extends CommonMessage {
      * Create a new ErrorMessage.
      * 
      * @param header
+     *            The message header
      */
     public ErrorMessage(CommonHeader header) {
         super(header);
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#getMessageIdentifier()
+     * {@inheritDoc}
      */
     @Override
     public String getMessageIdentifier() {
@@ -71,6 +72,7 @@ public class ErrorMessage extends CommonMessage {
          * Create a new Builder.
          * 
          * @param header
+         *            The message header
          */
         public Builder(CommonHeader header) {
             this.message = new ErrorMessage(header);
@@ -80,6 +82,7 @@ public class ErrorMessage extends CommonMessage {
          * Add an error code to the message.
          * 
          * @param errorCode
+         *            The error code
          * @return The builder
          */
         public Builder withErrorCode(String errorCode) {
@@ -120,7 +123,7 @@ public class ErrorMessage extends CommonMessage {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#isWithoutReply()
+     * {@inheritDoc}
      */
     @Override
     public boolean isWithoutReply() {
@@ -128,7 +131,7 @@ public class ErrorMessage extends CommonMessage {
     }
 
     /**
-     * @see org.openwms.common.comm.CommonMessage#toString()
+     * {@inheritDoc}
      */
     @Override
     public String toString() {

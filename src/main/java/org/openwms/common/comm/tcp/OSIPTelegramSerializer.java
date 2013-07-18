@@ -42,19 +42,17 @@ import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamExceptio
  * @since 0.1
  */
 public class OSIPTelegramSerializer implements Serializer<CommonMessage> {
-    protected int maxMessageSize = 2048;
+
+    protected int maxMessageSize = TCPCommConstants.MAX_TELEGRAM_LENGTH;
     private static final Logger LOGGER = LoggerFactory.getLogger(OSIPTelegramSerializer.class);
     private static final byte[] CRLF = "\r\n".getBytes();
 
     /**
-     * Create a new OSIPTelegramSerializer and set the allowed message length to
-     * {@value TCPCommConstants.MAX_TELEGRAM_LENGTH} (see OSIP specification).
+     * FIXME [scherrer] Comment this
+     * 
+     * @param bite
+     * @throws IOException
      */
-    public OSIPTelegramSerializer() {
-        super();
-        maxMessageSize = TCPCommConstants.MAX_TELEGRAM_LENGTH;
-    }
-
     protected void checkClosure(int bite) throws IOException {
         if (bite < 0) {
             LOGGER.debug("Socket closed during message assembly");

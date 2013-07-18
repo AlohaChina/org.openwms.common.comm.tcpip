@@ -27,11 +27,23 @@ import org.openwms.common.comm.CommonHeader;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * 
+ * @since 0.1
  */
-public class CommonMessageFactory {
+public final class CommonMessageFactory {
 
-    public static final CommonHeader createHeader(String telegram) {
+    /**
+     * Hide Constructor.
+     */
+    private CommonMessageFactory() {}
+
+    /**
+     * Create a {@link CommonHeader} from a passed telegram structure.
+     * 
+     * @param telegram
+     *            The telegram
+     * @return A {@link CommonHeader} instance
+     */
+    public static CommonHeader createHeader(String telegram) {
         String sync = telegram.substring(0, CommonHeader.getLengthSyncField());
 
         int start = sync.length();

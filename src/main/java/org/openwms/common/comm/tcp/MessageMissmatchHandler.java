@@ -38,15 +38,14 @@ public class MessageMissmatchHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageMissmatchHandler.class);
 
     /**
-     * Create a new MessageMissmatchHandler.
+     * FIXME [scherrer] Comment this
+     * 
+     * @param telegram
      */
-    public MessageMissmatchHandler() {}
-
     @ServiceActivator(inputChannel = "errExceptionChannel")
     public void handle(String telegram) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Invalid telegram : " + telegram);
         }
     }
-
 }

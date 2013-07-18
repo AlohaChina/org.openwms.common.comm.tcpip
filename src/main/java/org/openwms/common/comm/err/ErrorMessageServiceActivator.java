@@ -47,7 +47,7 @@ public class ErrorMessageServiceActivator implements NotRespondingServiceActivat
     private ApplicationContext ctx;
 
     /**
-     * @see org.openwms.common.comm.NotRespondingServiceActivator#getChannel()
+     * {@inheritDoc}
      */
     @Override
     public MessageChannel getChannel() {
@@ -55,7 +55,7 @@ public class ErrorMessageServiceActivator implements NotRespondingServiceActivat
     }
 
     /**
-     * @see org.openwms.common.comm.NotRespondingServiceActivator#getChannelName()
+     * {@inheritDoc}
      */
     @Override
     public String getChannelName() {
@@ -63,11 +63,12 @@ public class ErrorMessageServiceActivator implements NotRespondingServiceActivat
     }
 
     /**
-     * @see org.openwms.common.comm.NotRespondingServiceActivator#wakeUp(org.openwms.common.comm.CommonMessage)
+     * {@inheritDoc}
      */
     @Override
     @ServiceActivator(inputChannel = INPUT_CHANNEL_NAME)
     public void wakeUp(ErrorMessage message) {
+        // TODO [scherrer] :
         System.out.println("Call Service for ErrorMessage");
     }
 

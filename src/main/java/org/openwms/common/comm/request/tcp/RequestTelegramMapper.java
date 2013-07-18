@@ -35,7 +35,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * A RequestTelegramMapper tries to map a telegram String to a
- * {@link RequestMessage}
+ * {@link RequestMessage}.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
@@ -50,7 +50,7 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
     public RequestTelegramMapper() {}
 
     /**
-     * @see org.openwms.common.comm.MessageMapper#mapTo(java.lang.String)
+     * {@inheritDoc}
      */
     @Override
     public RequestMessage mapTo(String telegram) {
@@ -82,7 +82,7 @@ public class RequestTelegramMapper implements MessageMapper<RequestMessage> {
     }
 
     /**
-     * @see org.openwms.common.comm.MessageMapper#forType()
+     * {@inheritDoc}
      */
     @Override
     public String forType() {

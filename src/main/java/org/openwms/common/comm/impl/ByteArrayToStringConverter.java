@@ -37,7 +37,7 @@ public class ByteArrayToStringConverter implements Converter<byte[], String> {
     private String charSet = "UTF-8";
 
     /**
-     * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
+     * {@inheritDoc}
      */
     @Override
     public String convert(byte[] bytes) {

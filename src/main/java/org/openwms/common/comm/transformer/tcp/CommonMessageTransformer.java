@@ -37,7 +37,8 @@ import org.springframework.integration.annotation.Transformer;
 import org.springframework.stereotype.Component;
 
 /**
- * A CommonMessageTransformer.
+ * A CommonMessageTransformer transforms incoming OSIP telegram structures to
+ * {@link CommonMessage}s.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
@@ -68,8 +69,8 @@ public class CommonMessageTransformer {
      * @param telegram
      *            The incoming telegram String
      * @return The {@link CommonMessage} is transformable
-     * @throws an
-     *             RuntimeException if no appropriate type was found.
+     * @throws MessageMissmatchException
+     *             if no appropriate type was found.
      */
     @Transformer
     public CommonMessage transform(String telegram) {

@@ -39,7 +39,7 @@ public class RequestMessageConfiguration {
     /**
      * Create a MessageChannel with the proper name dynamically.
      * 
-     * @return An DirectChannel instance
+     * @return A DirectChannel instance
      */
     @Bean(name = RequestMessageServiceActivator.INPUT_CHANNEL_NAME)
     public MessageChannel getMessageChannel() {

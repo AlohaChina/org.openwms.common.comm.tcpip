@@ -48,10 +48,15 @@ public class CommonHeader implements Serializable {
      * Create a new CommonHeader.
      * 
      * @param sync
+     *            The sync field
      * @param messageLength
+     *            The length of the message
      * @param sender
+     *            The sender identifier
      * @param receiver
+     *            The receiver identifier
      * @param sequenceNo
+     *            An incremental sequence number
      */
     public CommonHeader(String sync, short messageLength, String sender, String receiver, short sequenceNo) {
         super();
@@ -66,6 +71,7 @@ public class CommonHeader implements Serializable {
      * Create a new CommonHeader.
      * 
      * @param telegram
+     *            The telegram String
      */
     // TODO [scherrer] : remove this it is specific to telegrams.
     public CommonHeader(String telegram) {
@@ -239,7 +245,7 @@ public class CommonHeader implements Serializable {
     }
 
     /**
-     * @see java.lang.Object#hashCode()
+     * {@inheritDoc}
      */
     @Override
     public int hashCode() {
@@ -254,7 +260,7 @@ public class CommonHeader implements Serializable {
     }
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
+     * {@inheritDoc}
      */
     @Override
     public boolean equals(Object obj) {
@@ -299,7 +305,7 @@ public class CommonHeader implements Serializable {
     }
 
     /**
-     * @see java.lang.Object#toString()
+     * {@inheritDoc}
      */
     @Override
     public String toString() {
