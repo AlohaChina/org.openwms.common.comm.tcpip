@@ -19,10 +19,6 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 /**
- * A package-info.
- *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision: $
- *
+ * Contains all exception classes of this module.
  */
 package org.openwms.common.comm.exception;

@@ -21,21 +21,21 @@
 package org.openwms.common.comm.exception;
 
 /**
- * A MessageMissmatchException.
+ * A MessageMissmatchException indicates that an incoming message is not in
+ * expected format
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public class MessageMissmatchException extends MessageMappingException {
+public class MessageMissmatchException extends MessageProcessingException {
+
+    private static final long serialVersionUID = -2992101871707320349L;
 
     /**
      * Create a new MessageMissmatchException.
-     * 
      */
-    public MessageMissmatchException() {
-        // TODO [scherrer] Auto-generated constructor stub
-    }
+    public MessageMissmatchException() {}
 
     /**
      * Create a new MessageMissmatchException.
@@ -44,7 +44,6 @@ public class MessageMissmatchException extends MessageMappingException {
      */
     public MessageMissmatchException(String arg0) {
         super(arg0);
-        // TODO [scherrer] Auto-generated constructor stub
     }
 
     /**
@@ -54,7 +53,6 @@ public class MessageMissmatchException extends MessageMappingException {
      */
     public MessageMissmatchException(Throwable arg0) {
         super(arg0);
-        // TODO [scherrer] Auto-generated constructor stub
     }
 
     /**
@@ -65,7 +63,5 @@ public class MessageMissmatchException extends MessageMappingException {
      */
     public MessageMissmatchException(String arg0, Throwable arg1) {
         super(arg0, arg1);
-        // TODO [scherrer] Auto-generated constructor stub
     }
-
 }

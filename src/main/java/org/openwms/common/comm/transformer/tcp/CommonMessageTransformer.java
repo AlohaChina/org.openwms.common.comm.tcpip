@@ -29,6 +29,7 @@ import javax.annotation.PostConstruct;
 import org.openwms.common.comm.CommonMessage;
 import org.openwms.common.comm.MessageMapper;
 import org.openwms.common.comm.exception.MessageMissmatchException;
+import org.openwms.common.comm.tcp.TCPCommConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,13 +73,13 @@ public class CommonMessageTransformer {
      */
     @Transformer
     public CommonMessage transform(String telegram) {
-        MessageMapper<CommonMessage> mapper = mappersMap.get(CommonMessage.getTelegramType(telegram));
+        MessageMapper<CommonMessage> mapper = mappersMap.get(TCPCommConstants.getTelegramType(telegram));
         if (mapper == null) {
             if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("Not mapper found for telegram type " + CommonMessage.getTelegramType(telegram));
+                LOGGER.error("Not mapper found for telegram type " + TCPCommConstants.getTelegramType(telegram));
             }
             throw new MessageMissmatchException("Not mapper found for telegram type "
-                    + CommonMessage.getTelegramType(telegram));
+                    + TCPCommConstants.getTelegramType(telegram));
         }
         return mapper.mapTo(telegram);
     }

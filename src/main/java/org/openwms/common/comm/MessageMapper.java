@@ -20,7 +20,6 @@
  */
 package org.openwms.common.comm;
 
-
 /**
  * A MessageMapper is able to map from a String telegram to a
  * {@link CommonMessage}.

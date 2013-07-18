@@ -34,7 +34,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * A ErrorTelegramMapper.
+ * An ErrorTelegramMapper transforms an incoming OSIP telegram string, that is
+ * expected to be an error telegram, into an ErrorMessage.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
@@ -42,6 +43,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ErrorTelegramMapper implements MessageMapper<ErrorMessage> {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorTelegramMapper.class);
 
     /**

@@ -20,10 +20,13 @@
  */
 package org.openwms.common.comm;
 
-
 /**
  * A RespondingServiceActivator.
  * 
+ * @param <T>
+ *            Type of incoming message that is being processed
+ * @param <U>
+ *            Type of outgoing message that is returned
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1

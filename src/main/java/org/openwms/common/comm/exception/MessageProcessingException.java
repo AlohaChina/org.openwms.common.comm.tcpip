@@ -21,51 +21,47 @@
 package org.openwms.common.comm.exception;
 
 /**
- * A MessageMappingException.
+ * A MessageProcessingException is a general exception that indicates a fault
+ * situation during message processing.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public class MessageMappingException extends RuntimeException {
+public class MessageProcessingException extends RuntimeException {
+
+    private static final long serialVersionUID = 4672945459737321505L;
 
     /**
-     * Create a new MessageMappingException.
-     * 
+     * Create a new MessageProcessingException.
      */
-    public MessageMappingException() {
-        // TODO [scherrer] Auto-generated constructor stub
-    }
+    public MessageProcessingException() {}
 
     /**
-     * Create a new MessageMappingException.
-     * 
-     * @param arg0
-     */
-    public MessageMappingException(String arg0) {
-        super(arg0);
-        // TODO [scherrer] Auto-generated constructor stub
-    }
-
-    /**
-     * Create a new MessageMappingException.
+     * Create a new MessageProcessingException.
      * 
      * @param arg0
      */
-    public MessageMappingException(Throwable arg0) {
+    public MessageProcessingException(String arg0) {
         super(arg0);
-        // TODO [scherrer] Auto-generated constructor stub
     }
 
     /**
-     * Create a new MessageMappingException.
+     * Create a new MessageProcessingException.
+     * 
+     * @param arg0
+     */
+    public MessageProcessingException(Throwable arg0) {
+        super(arg0);
+    }
+
+    /**
+     * Create a new MessageProcessingException.
      * 
      * @param arg0
      * @param arg1
      */
-    public MessageMappingException(String arg0, Throwable arg1) {
+    public MessageProcessingException(String arg0, Throwable arg1) {
         super(arg0, arg1);
-        // TODO [scherrer] Auto-generated constructor stub
     }
-
 }

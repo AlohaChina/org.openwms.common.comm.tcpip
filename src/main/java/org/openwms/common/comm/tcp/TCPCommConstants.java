@@ -20,6 +20,8 @@
  */
 package org.openwms.common.comm.tcp;
 
+import org.openwms.common.comm.CommonHeader;
+
 /**
  * A TCPCommConstants.
  * 
@@ -35,4 +37,19 @@ public final class TCPCommConstants {
      * Create a new TCPCommConstants.
      */
     private TCPCommConstants() {}
+
+    /**
+     * A CommonMessage is able to define the type of message from the telegram
+     * String. Currently the type identifier starts directly after the header
+     * and has a length of 4 characters.
+     * 
+     * @param telegram
+     *            The telegram String to resolve the type for
+     * @return The telegram type as case-insensitive String
+     */
+    // TODO [scherrer] : remove this it is specific to telegrams.
+    public static final String getTelegramType(String telegram) {
+        short headerLength = CommonHeader.getHeaderLength();
+        return telegram.substring(headerLength, headerLength + 4);
+    }
 }

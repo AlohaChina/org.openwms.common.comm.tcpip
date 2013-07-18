@@ -25,13 +25,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * A CommConstants.
+ * A final CommConstants class aggregates common used data and formatting types
+ * and provides useful conversation methods.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
  * @since 0.1
  */
-public class CommConstants {
+public final class CommConstants {
     /** The date format used in messages. */
     public static final String DATE_FORMAT_PATTERN = "yyyyMMddHHmmss";
     /** Used as suffix to create channels dynamically. */
@@ -49,7 +50,7 @@ public class CommConstants {
      * @throws ParseException
      *             in case the dateString hasn't the expected format pattern
      */
-    public static final Date asDate(String dateString) throws ParseException {
+    public static Date asDate(String dateString) throws ParseException {
         return DATE_FORMAT.parse(dateString);
     }
 
@@ -60,10 +61,19 @@ public class CommConstants {
      *            The date to format
      * @return The formatted String
      */
-    public static final String asString(Date date) {
+    public static String asString(Date date) {
         return DATE_FORMAT.format(date);
     }
 
+    /**
+     * Pad a String <tt>s</tt> with a number <tt>n</tt> of '*' characters.
+     * 
+     * @param s
+     *            The String to pad
+     * @param n
+     *            Number of digits in sum
+     * @return The padded String
+     */
     public static String padRight(String s, int n) {
         return String.format("%1$-" + n + "s", s).replace(" ", "*");
     }
@@ -72,5 +82,4 @@ public class CommConstants {
      * Create a new CommConstants.
      */
     private CommConstants() {}
-
 }
