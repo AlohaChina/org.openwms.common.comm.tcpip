@@ -26,7 +26,7 @@ package org.openwms.common.comm.exception;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public class MessageMissmatchException extends MessageProcessingException {
 
@@ -35,33 +35,39 @@ public class MessageMissmatchException extends MessageProcessingException {
     /**
      * Create a new MessageMissmatchException.
      */
-    public MessageMissmatchException() {}
+    public MessageMissmatchException() {
 
-    /**
-     * Create a new MessageMissmatchException.
-     * 
-     * @param arg0
-     */
-    public MessageMissmatchException(String arg0) {
-        super(arg0);
     }
 
     /**
      * Create a new MessageMissmatchException.
      * 
-     * @param arg0
+     * @param message
+     *            Detail message
      */
-    public MessageMissmatchException(Throwable arg0) {
-        super(arg0);
+    public MessageMissmatchException(String message) {
+        super(message);
     }
 
     /**
      * Create a new MessageMissmatchException.
      * 
-     * @param arg0
-     * @param arg1
+     * @param cause
+     *            Root cause
      */
-    public MessageMissmatchException(String arg0, Throwable arg1) {
-        super(arg0, arg1);
+    public MessageMissmatchException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Create a new MessageMissmatchException.
+     * 
+     * @param message
+     *            Detail message
+     * @param cause
+     *            Root cause
+     */
+    public MessageMissmatchException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

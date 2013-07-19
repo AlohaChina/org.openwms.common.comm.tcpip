@@ -29,14 +29,16 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
 /**
- * A ErrorMessageServiceActivator.
+ * A ErrorMessageServiceActivator delegates incoming {@link ErrorMessage}s to
+ * the appropriate Application Service.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 @Component
 public class ErrorMessageServiceActivator implements NotRespondingServiceActivator<ErrorMessage> {
+
     /**
      * The name of the MessageChannel used as input-channel of this message
      * processor.

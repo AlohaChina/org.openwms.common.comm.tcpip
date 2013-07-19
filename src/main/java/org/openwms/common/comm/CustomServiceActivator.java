@@ -27,7 +27,7 @@ import org.springframework.integration.MessageChannel;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public interface CustomServiceActivator {
 

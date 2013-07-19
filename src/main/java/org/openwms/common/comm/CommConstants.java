@@ -30,7 +30,7 @@ import java.util.Date;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public final class CommConstants {
     /** The date format used in messages. */

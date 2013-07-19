@@ -21,7 +21,8 @@
 package org.openwms.common.comm;
 
 /**
- * A RespondingServiceActivator.
+ * A RespondingServiceActivator delegates incoming messages to an Application
+ * Service and response to the incoming message.
  * 
  * @param <T>
  *            Type of incoming message that is being processed
@@ -29,7 +30,7 @@ package org.openwms.common.comm;
  *            Type of outgoing message that is returned
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public interface RespondingServiceActivator<T extends CommonMessage, U extends CommonMessage> extends
         CustomServiceActivator {

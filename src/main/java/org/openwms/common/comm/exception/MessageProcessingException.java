@@ -26,7 +26,7 @@ package org.openwms.common.comm.exception;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public class MessageProcessingException extends RuntimeException {
 
@@ -35,33 +35,39 @@ public class MessageProcessingException extends RuntimeException {
     /**
      * Create a new MessageProcessingException.
      */
-    public MessageProcessingException() {}
+    public MessageProcessingException() {
 
-    /**
-     * Create a new MessageProcessingException.
-     * 
-     * @param arg0
-     */
-    public MessageProcessingException(String arg0) {
-        super(arg0);
     }
 
     /**
      * Create a new MessageProcessingException.
      * 
-     * @param arg0
+     * @param message
+     *            Detail message
      */
-    public MessageProcessingException(Throwable arg0) {
-        super(arg0);
+    public MessageProcessingException(String message) {
+        super(message);
     }
 
     /**
      * Create a new MessageProcessingException.
      * 
-     * @param arg0
-     * @param arg1
+     * @param cause
+     *            Root cause
      */
-    public MessageProcessingException(String arg0, Throwable arg1) {
-        super(arg0, arg1);
+    public MessageProcessingException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Create a new MessageProcessingException.
+     * 
+     * @param message
+     *            Detail message
+     * @param cause
+     *            Root cause
+     */
+    public MessageProcessingException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

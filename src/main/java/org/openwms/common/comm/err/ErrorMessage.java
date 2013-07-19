@@ -27,11 +27,12 @@ import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
 
 /**
- * A ErrorMessage.
+ * An ErrorMessage signals any error or failure situation from an external
+ * system and to external systems.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public class ErrorMessage extends CommonMessage {
 

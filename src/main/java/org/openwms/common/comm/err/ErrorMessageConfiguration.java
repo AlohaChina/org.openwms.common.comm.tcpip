@@ -30,7 +30,7 @@ import org.springframework.integration.channel.DirectChannel;
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 @Configuration
 public class ErrorMessageConfiguration {

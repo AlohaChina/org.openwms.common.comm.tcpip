@@ -39,11 +39,11 @@ import org.springframework.integration.ip.tcp.serializer.SoftEndOfStreamExceptio
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public class OSIPTelegramSerializer implements Serializer<CommonMessage> {
 
-    protected int maxMessageSize = TCPCommConstants.MAX_TELEGRAM_LENGTH;
+    private final int maxMessageSize = TCPCommConstants.MAX_TELEGRAM_LENGTH;
     private static final Logger LOGGER = LoggerFactory.getLogger(OSIPTelegramSerializer.class);
     private static final byte[] CRLF = "\r\n".getBytes();
 

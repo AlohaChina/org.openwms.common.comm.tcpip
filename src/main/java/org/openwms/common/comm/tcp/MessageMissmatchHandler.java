@@ -26,23 +26,26 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
 /**
- * A MessageMissmatchHandler.
+ * A MessageMissmatchHandler cares about incoming error telegrams on a defined
+ * error channel with name {@value ERROR_CHANNEL_ID}.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 @Component
 public class MessageMissmatchHandler {
 
+    private static final String ERROR_CHANNEL_ID = "errExceptionChannel";
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageMissmatchHandler.class);
 
     /**
-     * FIXME [scherrer] Comment this
+     * Current implementation just logs error messages.
      * 
      * @param telegram
+     *            The error telegram
      */
-    @ServiceActivator(inputChannel = "errExceptionChannel")
+    @ServiceActivator(inputChannel = ERROR_CHANNEL_ID)
     public void handle(String telegram) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("Invalid telegram : " + telegram);

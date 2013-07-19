@@ -27,11 +27,11 @@ import org.openwms.common.comm.CommonHeader;
 import org.openwms.common.comm.CommonMessage;
 
 /**
- * A ResponseMessage.
+ * A ResponseMessage on <tt>RequestMessage</tt>s.
  * 
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version $Revision: $
- * @since 0.1
+ * @since 0.2
  */
 public class ResponseMessage extends CommonMessage implements Serializable {
 
