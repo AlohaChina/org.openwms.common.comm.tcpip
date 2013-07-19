@@ -34,20 +34,20 @@
 
     <context:annotation-config />
     <int:annotation-config/> 
-    <context:component-scan base-package="org.openwms.common" />
+    <context:component-scan base-package="org.openwms.common.comm" />
     
     <int:converter>
         <bean class="org.openwms.common.comm.impl.ByteArrayToStringConverter" />
     </int:converter>
     
-    <bean id="bySerializer" class="org.springframework.integration.ip.tcp.serializer.ByteArrayCrLfSerializer" />
+    <bean id="byteArraySerializer" class="org.springframework.integration.ip.tcp.serializer.ByteArrayCrLfSerializer" />
     <bean id="telegramSerializer" class="org.openwms.common.comm.tcp.OSIPTelegramSerializer" />
     <bean id="deserializer" class="org.springframework.core.serializer.DefaultDeserializer" />
 
     <task:executor id="taskExecutor" queue-capacity="25" />
 
     <ip:tcp-connection-factory id="server" type="server" port="30000" so-timeout="60000" using-nio="false"
-        serializer="telegramSerializer" deserializer="bySerializer" so-receive-buffer-size="140" so-send-buffer-size="140" />
+        serializer="telegramSerializer" deserializer="byteArraySerializer" so-receive-buffer-size="140" so-send-buffer-size="140" />
 
     <ip:tcp-inbound-channel-adapter id="inboundAdapter" channel="inboundChannel"
         connection-factory="server" />
@@ -59,17 +59,11 @@
     <int:transformer input-channel="inboundChannel" output-channel="transformerOutput" ref="commonMessageTransformer" />
     <int:channel id="transformerOutput" />
 
-    
-    
-    
     <int:channel id="outboundChannel">
         <!--int:queue capacity="25"/-->
     </int:channel>
     <ip:tcp-outbound-channel-adapter id="outboundAdapter" channel="outboundChannel"
         connection-factory="server" />
-        
-        
-        
         
     <!--Error handling >
     <int:exception-type-router input-channel="inboundChannel" default-output-channel="commonExceptionChannel">
